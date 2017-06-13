@@ -14,14 +14,14 @@ const  stormodtagerAdresseTekst = data => {
   if(data.husnr) {
     adresse += ' ' + data.husnr;
   }
-  if(data.etage || data.dør) {
+  if(data.etage || data['dør']) {
     adresse += ',';
   }
   if(data.etage) {
     adresse += ' ' + data.etage + '.';
   }
-  if(data.dør) {
-    adresse += ' ' + data.dør;
+  if(data['dør']) {
+    adresse += ' ' + data['dør'];
   }
   adresse += ', ';
   if(data.supplerendebynavn) {
@@ -65,13 +65,15 @@ const processResults = (q, result) => {
   }, []);
 };
 
-const doFetch = (baseUrl, params) => {
-  const searchParams = new URLSearchParams();
-  for(let paramName of Object.keys(params)) {
+const formatParams = params => {
+  return Object.keys(params).map(paramName => {
     const paramValue = params[paramName];
-    searchParams.set(paramName, paramValue);
-  }
-  return fetch(`${baseUrl}/autocomplete?${searchParams}`, {
+    return `${paramName}=${encodeURIComponent(paramValue)}`;
+  }).join('&');
+}
+
+const doFetch = (baseUrl, params) => {
+  return fetch(`${baseUrl}/autocomplete?${formatParams(params)}`, {
     mode: 'cors'
   }).then(result => result.json());
 };

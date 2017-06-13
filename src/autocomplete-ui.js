@@ -1,5 +1,4 @@
-const IncrementalDOM = window.IncrementalDOM;
-const {elementOpen, elementClose, elementVoid, text, patch, attributes, applyProp} = IncrementalDOM;
+import {elementOpen, elementClose, elementVoid, text, patch, attributes, applyProp} from 'incremental-dom';
 
 attributes.caretpos = (element, name, value) => {
   element.setSelectionRange(value, value);
@@ -7,7 +6,7 @@ attributes.caretpos = (element, name, value) => {
 
 attributes.value = applyProp;
 
-export const autocomplete = (containerElm, options) => {
+export const autocompleteUi = (containerElm, options) => {
   const onSelect = options.onSelect;
   const onTextChange = options.onTextChange;
 
@@ -150,14 +149,12 @@ export const autocomplete = (containerElm, options) => {
   };
 
   const setSuggestions = suggestions => {
-    console.dir(suggestions);
     data.suggestions = suggestions;
     data.selected = 0;
     update();
   };
 
   const selectAndClose = text => {
-    console.log('SELECT AND CLOSE: ' + text);
     data.inputText = text;
     data.caretpos = text.length;
     data.suggestions = [];
