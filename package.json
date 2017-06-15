@@ -25,7 +25,6 @@
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.1.1",
     "karma-mocha": "^1.3.0",
-    "karma-phantomjs-launcher": "^1.0.4",
     "karma-rollup-plugin": "^0.2.4",
     "mocha": "^3.4.2",
     "npm-run-all": "^4.0.2",
@@ -42,7 +41,6 @@
     "webdriverio": "^4.8.0"
   },
   "dependencies": {
-    "incremental-dom": "google/incremental-dom#c652f00",
-    "phantomjs-prebuilt": "^2.1.14"
+    "incremental-dom": "google/incremental-dom#c652f00"
   }
 }

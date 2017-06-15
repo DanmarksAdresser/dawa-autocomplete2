@@ -7,7 +7,7 @@ const babel = require('rollup-plugin-babel');
 // karma.conf.js
 module.exports = function (config) {
   config.set({
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     frameworks: ['mocha'],
     // load necessary plugins
     plugins: [
