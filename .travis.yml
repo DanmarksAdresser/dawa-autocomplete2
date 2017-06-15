@@ -5,10 +5,4 @@ notifications:
   - anders@andershessellund.dk
 language: node_js
 node_js:
-- 6.10.3
-addons:
-  browserstack:
-    username: "andersjensen3"
-    access_key:
-      secure: "N/dXITYld8CpfugiAMHg/DUdR3JWVqVyGs8fkFpUdp8jsbyHtmDu7mMuwx9uBkEH1Ay2XBb4POg8P1oQQn2G8QX3Jj6Z6DVwoG4Gwap0AcpWM0J+Z9SVxQhkNIM43TQYDRNP3UYW9mko8oKtPCFo7MkMCuFKihDB+3euR5aj2hcrocGjGZu8Hj5/dD3kUZbdJ17RNC0P2JaCCNdh7lrM7NSUt7WDk3pK2yVZNUDHY30bvdfgfvF7gHcFBkHaJJ4eMbVg5v7X4EuYWSO7kwDh4bJJkcBM5UE/3yDKtdCiM1Bpcz8qHC8rRKkNlGeeLv5dt7HJjUPByPhe7dcbUFnvV+U4RxfxeGGVq1mNEtyPdpIN0hU7qZzFCen5U+MDUcIhndGouzXDtAaGblDkj1ldmBATtjLA44RtJ9KaSky1dY3GGc+PvcVjkDj9Yp+kk/FgA57BAiOmc0tiO+aXREPwUVrDduruR7aX9hcaqMhi8+JXyJycDjiROT4Fz+3lCsDFbaX3jPdzh78eFM7Qh9okCKwoi7h0+4pO4Vp0Gl9Ehac2HyFLvm/Gwnby+TWHO5a6OxDO/pwtesQ8AWd+5PiaALAnFON548ll8KRctNe1jXcfKqFEdwIaNq8bfbjPpkvjGIcD0OCKoIuV3rRXGOZq1n794m13IOFvpqEvrlaTskk="
-
+- 8.0.0
