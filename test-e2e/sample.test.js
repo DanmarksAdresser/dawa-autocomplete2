@@ -2,13 +2,12 @@
 
 const assert = require('chai').assert;
 
-describe('Google\'s Search Functionality', function() {
-  it('can find search results', function () {
+describe('Autocomplete', function() {
+  it('can find load the demo page', function () {
     browser
-      .url('https://www.google.com/ncr')
-      .setValue('*[name="q"]','BrowserStack\n')
+      .url('http:localhost:8080/demo.html')
       .pause(5000);
 
-    assert(browser.getTitle().match(/BrowserStack - Google Search/i));
+    assert(browser.getTitle().match(/DAWA autocomplete - demo/i));
   });
 });

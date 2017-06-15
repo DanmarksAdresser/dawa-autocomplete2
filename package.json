@@ -4,8 +4,11 @@
   "description": "DAWA Autocomplete",
   "main": "lib/dawa-autocomplete-ng.js",
   "scripts": {
-    "prepublish": "node_modules/rollup/bin/rollup -c",
-    "test": "node_modules/webdriverio/bin/wdio"
+    "prepublish": "rollup -c",
+    "serve": "http-server -p 8080 .",
+    "wdio": "wdio",
+    "test-e2e": "run-p -r serve wdio",
+    "test": "run-s test-e2e"
   },
   "author": "",
   "license": "ISC",
@@ -17,10 +20,12 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "browserstack-local": "^1.3.0",
     "chai": "^4.0.2",
+    "http-server": "^0.10.0",
     "karma": "^1.7.0",
     "karma-mocha": "^1.3.0",
     "karma-rollup-plugin": "^0.2.4",
     "mocha": "^3.4.2",
+    "npm-run-all": "^4.0.2",
     "regenerator-runtime": "^0.10.5",
     "rollup": "^0.42.0",
     "rollup-plugin-babel": "^2.7.1",
