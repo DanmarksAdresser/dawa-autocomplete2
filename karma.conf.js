@@ -13,7 +13,6 @@ module.exports = function (config) {
     plugins: [
       'karma-mocha',
       require('karma-rollup-plugin'),
-      require('karma-phantomjs-launcher'),
       require('karma-chrome-launcher')
     ],
     files: [
