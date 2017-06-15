@@ -4,7 +4,8 @@
   "description": "DAWA Autocomplete",
   "main": "lib/dawa-autocomplete-ng.js",
   "scripts": {
-    "prepublish": "node_modules/rollup/bin/rollup -c"
+    "prepublish": "node_modules/rollup/bin/rollup -c",
+    "test": "node_modules/webdriverio/bin/wdio"
   },
   "author": "",
   "license": "ISC",
@@ -14,11 +15,23 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "browserstack-local": "^1.3.0",
+    "chai": "^4.0.2",
+    "karma": "^1.7.0",
+    "karma-mocha": "^1.3.0",
+    "karma-rollup-plugin": "^0.2.4",
+    "mocha": "^3.4.2",
+    "regenerator-runtime": "^0.10.5",
     "rollup": "^0.42.0",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-closure-compiler-js": "^1.0.4",
     "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.1.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "ts-csp": "^0.7.2",
+    "wdio-mocha-framework": "^0.5.10",
+    "webdriverio": "^4.8.0"
   },
   "dependencies": {
     "incremental-dom": "google/incremental-dom#c652f00"

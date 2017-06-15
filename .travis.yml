@@ -1,0 +1,14 @@
+dist: trusty
+notifications:
+  email:
+  - fjord@sdfe.dk
+  - anders@andershessellund.dk
+language: node_js
+node_js:
+- 6.10.3
+addons:
+  browserstack:
+    username: andersjensen3
+    access_key:
+      secure: "eG2HDE5fDvC7YKwQXyfNq70KTx+lyqLvBFlVOJ3/HFMHEiWSmmMnzhnMXt+rl247laGMNYKHFBWteY1vmUKtMa106RnWRXPxEQvuLSNZnflP+sV5jocyWXqVMrVuYEz/EaL9OfTxZQORE9pD8AIH/rvYQZthwf6R10l8BI/LDD/p9yXINBwON4G6438xL8iWSwRIHK0GjlW0gToPzbP1K3WyMPObJ/uDYcaoP37sMkmIsrKOkEG+H86vFE62e7M0+1heEmvIfYicF2wOCuXVSXu64TxtCZp2GwCo4ZFH3hS32Q9vOYEPJDkqCHqh/tCB80unp+gZqXmYt/8aoSKvl7CICW98pv9un2V6zxMJnT4adpdXG15nFprLfbuvv0pvF7FDHiDpSWKtzIV7vntfSi6+1gWApx4Zby1PXdtrEKS8ZWaf+LkevySv7sRXTTso34eDkqt4S5L1xq2EPhNwvBeiI0IAu9GVSH9H6q+VtgD0KKj6eLSFffC5dAvnob33ycctUDawX246b+TrPvM+aBPZU9T1zCnPXkufj+0VZn8PcX0qM1YF3jEH0NQCIYT18ICI2U/MNxZNvcrmLJkV5hpuo2IrPZkbaBQoBfCwRGgO/7BbGyYt7YN0Ho1XzIQO5jJK3suJeUKJ4yTWo0k160cyzhJCYUAgSZdCbiutQcM="
+
