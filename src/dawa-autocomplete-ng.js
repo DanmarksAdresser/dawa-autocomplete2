@@ -2,7 +2,20 @@ import {autocompleteUi} from './autocomplete-ui.js';
 import {AutocompleteController} from './autocomplete-controller.js';
 
 export function dawaAutocomplete(containerElm, options) {
-  const controller = new AutocompleteController({});
+  options = options || {};
+  const controllerOptions = ['baseUrl', 'minLength'].reduce((memo, optionName)=> {
+    if(options.hasOwnProperty(optionName)) {
+      memo[optionName] = options[optionName];
+    }
+    return memo;
+  }, {});
+  if(options.adgangsadresserOnly) {
+    controllerOptions.type = 'adgangsadresse';
+  }
+  else {
+    controllerOptions.type = 'adresse';
+  }
+  const controller = new AutocompleteController(controllerOptions);
   const ui = autocompleteUi(containerElm, {
     onSelect: (suggestion) => {
       controller.select(suggestion);

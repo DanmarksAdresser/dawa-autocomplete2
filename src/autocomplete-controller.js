@@ -1,11 +1,12 @@
 const defaultOptions = {
-  minChars: 2,
+  minLength: 2,
   debounce: 200,
   renderCallback: suggestions =>  {
     console.error('No renderCallback supplied');
   },
   type: 'adresse',
-  baseUrl: 'https://dawa.aws.dk'
+  baseUrl: 'https://dawa.aws.dk',
+  adgangsadresserOnly: false
 };
 
 // Beregner adressetekst hvor stormodtagerpostnummer anvendes.
@@ -113,12 +114,13 @@ const  getAutocompleteResponse = (baseUrl, type, q, caretpos, fuzzy, skipVejnavn
 export class AutocompleteController {
   constructor(options) {
     options = Object.assign({}, defaultOptions, options || {});
-    this.minChars = options.minChars;
+    this.minLength = options.minLength;
     this.debounce = options.debounce;
     this.renderCallback = options.renderCallback;
     this.selectCallback = options.selectCallback;
     this.baseUrl = options.baseUrl;
     this.type = options.type;
+    console.log('minLength: ' + this.minLength);
   }
 
   setRenderCallback(renderCallback) {
@@ -130,7 +132,7 @@ export class AutocompleteController {
   }
 
   update(text, caretpos) {
-    if(text.length >= this.minChars) {
+    if(text.length >= this.minLength) {
       getAutocompleteResponse(this.baseUrl, this.type, text, caretpos, true, false, null).then(result => {
         if(this.renderCallback) {
           this.renderCallback(result);

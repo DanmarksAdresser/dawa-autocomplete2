@@ -43,6 +43,6 @@
     "webdriverio": "^4.8.0"
   },
   "dependencies": {
-    "incremental-dom": "google/incremental-dom#c652f00"
+    "incremental-dom": "^0.5.2"
   }
 }

@@ -10,11 +10,24 @@
     <script src="dist/dawa-autocomplete-ng.min.js"></script>
 </head>
 <body>
-<div id="autocomplete">
+<h3>Default options</h3>
+<div id="autocomplete-default">
 </div>
-<p>This is just some text.</p>
+
+<h3>adgangsadresserOnly=true</h3>
+<div id="autocomplete-adgangsadresser-only">
+</div>
+<h3>minLength=3</h3>
+<div id="autocomplete-minlength-3">
+</div>
 </body>
 <script>
-  dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete"), {});
+  dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-default"), {});
+  dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-adgangsadresser-only"), {
+    adgangsadresserOnly: true
+  });
+  dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-minlength-3"), {
+    minLength: 3
+  });
 </script>
 </html>

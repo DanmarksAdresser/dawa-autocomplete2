@@ -116,8 +116,8 @@ export const autocompleteUi = (containerElm, options) => {
         text(suggestion.forslagstekst);
         elementClose('div');
       }
+      elementClose('div');
     }
-    elementClose('div');
   };
 
   let updateScheduled = false;
@@ -126,6 +126,7 @@ export const autocompleteUi = (containerElm, options) => {
     if (!updateScheduled) {
       updateScheduled = true;
       requestAnimationFrame(() => {
+        console.log("updating " + containerElm.id);
         if(destroyed) {
           return;
         }
