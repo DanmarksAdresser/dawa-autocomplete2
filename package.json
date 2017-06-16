@@ -6,6 +6,7 @@
   "scripts": {
     "prepublish": "rollup -c",
     "serve": "http-server -p 8080 .",
+    "watch": "rollup -c -w",
     "wdio": "wdio",
     "karma": "karma start --single-run",
     "test-e2e": "run-p -r serve wdio",
@@ -36,6 +37,7 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.1.0",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-watch": "^4.0.0",
     "ts-csp": "^0.7.2",
     "wdio-mocha-framework": "^0.5.10",
     "webdriverio": "^4.8.0"

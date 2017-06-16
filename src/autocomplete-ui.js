@@ -85,11 +85,8 @@ export const autocompleteUi = (containerElm, options) => {
     return false;
   };
 
-  const inputKeyUpHandler = e => {
-    const key = window.event ? e.keyCode : e.which;
-    if (key !== 40 && key !== 38 && key !== 13 && key !== 9) {
-      handleInputChanged(e.target);
-    }
+  const inputChangeHandler = e => {
+    handleInputChanged(e.target);
   };
   const inputMouseUpHandler = e => handleInputChanged(e.target);
 
@@ -100,7 +97,7 @@ export const autocompleteUi = (containerElm, options) => {
         'onkeydown', keydownHandler,
         'onblur', blurHandler,
         'onfocus', focusHandler,
-        'onkeyup', inputKeyUpHandler,
+        'oninput', inputChangeHandler,
         'onmouseup', inputMouseUpHandler
       ],
       'value', data.inputText,
