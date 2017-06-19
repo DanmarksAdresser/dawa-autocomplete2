@@ -6,7 +6,7 @@ exports.config = {
     './test-e2e/**/*.test.js'
   ],
   capabilities: [{
-    browser: 'chrome'
+    browserName: 'chrome'
   }],
   services: ['selenium-standalone'],
 
@@ -17,7 +17,7 @@ exports.config = {
   waitforTimeout: 10000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
-
+  sync: false,
   framework: 'mocha',
   mochaOpts: {
     ui: 'bdd'

@@ -9,7 +9,7 @@ exports.config = {
     './test-e2e/**/*.test.js'
   ],
   capabilities: [{
-    browser: 'chrome',
+    browserName: 'chrome',
     name: 'local_test',
     build: 'webdriver-browserstack',
     'browserstack.local': true
@@ -27,6 +27,7 @@ exports.config = {
   mochaOpts: {
     ui: 'bdd'
   },
+  sync: false,
 
   onPrepare: function (config, capabilities) {
     console.log("Connecting local");

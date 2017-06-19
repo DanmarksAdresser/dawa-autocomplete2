@@ -45,6 +45,6 @@
     "webdriverio": "^4.8.0"
   },
   "dependencies": {
-    "incremental-dom": "^0.5.2"
+    "incremental-dom": "^0.5.1"
   }
 }
