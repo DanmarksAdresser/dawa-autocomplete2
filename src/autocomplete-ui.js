@@ -1,4 +1,12 @@
-import {elementOpen, elementClose, elementVoid, text, patch, attributes, applyProp} from 'incremental-dom';
+import {
+  elementOpen,
+  elementClose,
+  elementVoid,
+  text,
+  patch,
+  attributes,
+  applyProp
+} from 'incremental-dom';
 
 attributes.caretpos = (element, name, value) => {
   element.setSelectionRange(value, value);
@@ -6,16 +14,18 @@ attributes.caretpos = (element, name, value) => {
 
 attributes.value = applyProp;
 
-export const autocompleteUi = (containerElm, options) => {
+export const autocompleteUi = (inputElm, options) => {
   const onSelect = options.onSelect;
   const onTextChange = options.onTextChange;
 
   let destroyed = false;
   let lastEmittedText = '';
   let lastEmittedCaretpos = 0;
+  const suggestionContainerElm = document.createElement('div');
+  inputElm.parentNode.insertBefore(suggestionContainerElm, inputElm.nextSibling);
 
   const emitTextChange = (newText, newCaretpos) => {
-    if(lastEmittedText !== newText || lastEmittedCaretpos !== newCaretpos){
+    if (lastEmittedText !== newText || lastEmittedCaretpos !== newCaretpos) {
       onTextChange(newText, newCaretpos);
       lastEmittedText = newText;
       lastEmittedCaretpos = newCaretpos;
@@ -26,7 +36,7 @@ export const autocompleteUi = (containerElm, options) => {
     caretpos: 2,
     inputText: '',
     selected: 0,
-    focused: document.activeElement === containerElm,
+    focused: document.activeElement === inputElm,
     suggestions: []
   };
 
@@ -46,7 +56,7 @@ export const autocompleteUi = (containerElm, options) => {
     data.caretpos = selectedSuggestion.caretpos;
     data.suggestions = [];
     onSelect(selectedSuggestion);
-    update();
+    update(true);
   };
 
   const keydownHandler = (e) => {
@@ -91,28 +101,20 @@ export const autocompleteUi = (containerElm, options) => {
   const inputMouseUpHandler = e => handleInputChanged(e.target);
 
   const render = (data) => {
-    elementVoid('input', '',
-      [
-        'type', 'text',
-        'onkeydown', keydownHandler,
-        'onblur', blurHandler,
-        'onfocus', focusHandler,
-        'oninput', inputChangeHandler,
-        'onmouseup', inputMouseUpHandler
-      ],
-      'value', data.inputText,
-      'caretpos', data.caretpos);
     if (data.suggestions.length > 0 && data.focused) {
-      elementOpen('div', '', ['class', 'autocomplete-suggestions']);
+      elementOpen('div', '', ['class', 'dawa-autocomplete-suggestions']);
       for (let i = 0; i < data.suggestions.length; ++i) {
         const suggestion = data.suggestions[i];
-        let className = 'autocomplete-suggestion';
+        let className = 'dawa-autocomplete-suggestion';
         if (data.selected === i) {
-          className += ' selected';
+          className += ' dawa-selected';
         }
         elementOpen('div', '', [],
           'class', className,
-          'onmousedown', () => selectSuggestion(i));
+          'onmousedown', (e) => {
+            selectSuggestion(i);
+            e.preventDefault();
+          });
         text(suggestion.forslagstekst);
         elementClose('div');
       }
@@ -121,17 +123,24 @@ export const autocompleteUi = (containerElm, options) => {
   };
 
   let updateScheduled = false;
-
-  update = () => {
+  let updateInput = false;
+  update = (shouldUpdateInput) => {
+    if(shouldUpdateInput) {
+      updateInput = true;
+    }
     if (!updateScheduled) {
       updateScheduled = true;
       requestAnimationFrame(() => {
-        console.log("updating " + containerElm.id);
-        if(destroyed) {
+        if (destroyed) {
           return;
         }
         updateScheduled = false;
-        patch(containerElm, function () {
+        if(updateInput) {
+          inputElm.value = data.inputText;
+          inputElm.setSelectionRange(data.caretpos, data.caretpos);
+        }
+        updateInput = false;
+        patch(suggestionContainerElm, function () {
           render(data);
         });
       });
@@ -142,7 +151,12 @@ export const autocompleteUi = (containerElm, options) => {
 
   const destroy = () => {
     destroyed = true;
-    patch(containerElm, () => {
+    inputElm.removeEventListener('keydown', keydownHandler);
+    inputElm.removeEventListener('blur', blurHandler);
+    inputElm.removeEventListener('focus', focusHandler);
+    inputElm.removeEventListener('input', inputChangeHandler);
+    inputElm.removeEventListener('mouseup', inputMouseUpHandler);
+    patch(suggestionContainerElm, () => {
     });
   };
 
@@ -157,8 +171,15 @@ export const autocompleteUi = (containerElm, options) => {
     data.caretpos = text.length;
     data.suggestions = [];
     data.selected = 0;
-    update();
+    update(true);
   };
+
+  inputElm.addEventListener('keydown', keydownHandler);
+  inputElm.addEventListener('blur', blurHandler);
+  inputElm.addEventListener('focus', focusHandler);
+  inputElm.addEventListener('input', inputChangeHandler);
+  inputElm.addEventListener('mouseup', inputMouseUpHandler);
+
   return {
     destroy,
     setSuggestions,

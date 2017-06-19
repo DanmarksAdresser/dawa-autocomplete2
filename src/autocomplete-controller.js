@@ -6,7 +6,9 @@ const defaultOptions = {
   },
   type: 'adresse',
   baseUrl: 'https://dawa.aws.dk',
-  adgangsadresserOnly: false
+  adgangsadresserOnly: false,
+  stormodtagerpostnumre: true,
+  fuzzy: true
 };
 
 // Beregner adressetekst hvor stormodtagerpostnummer anvendes.
@@ -32,7 +34,7 @@ const  stormodtagerAdresseTekst = data => {
   return adresse;
 };
 
-const processResults = (q, result) => {
+const processResultsStormodtagere = (q, result) => {
   return result.reduce(function(memo, row) {
     if((row.type === 'adgangsadresse' || row.type === 'adresse') && row.data.stormodtagerpostnr) {
       // Vi har modtaget et stormodtagerpostnr. Her vil vi muligvis gerne vise stormodtagerpostnummeret
@@ -64,6 +66,15 @@ const processResults = (q, result) => {
     }
     return memo;
   }, []);
+}
+
+const processResults = (q, result, stormodtagereEnabled) => {
+  if(stormodtagereEnabled) {
+    return processResultsStormodtagere(q, result);
+  }
+  else {
+    return result;
+  }
 };
 
 const formatParams = params => {
@@ -79,7 +90,7 @@ const doFetch = (baseUrl, params) => {
   }).then(result => result.json());
 };
 
-const  getAutocompleteResponse = (baseUrl, type, q, caretpos, fuzzy, skipVejnavn, adgangsadresseid) => {
+const  getAutocompleteResponse = (baseUrl, type, q, caretpos, fuzzy, stormodtagereEnabled, skipVejnavn, adgangsadresseid) => {
   const params = {q: q, type: type, caretpos: caretpos};
   if(fuzzy) {
     params.fuzzy = '';
@@ -90,25 +101,8 @@ const  getAutocompleteResponse = (baseUrl, type, q, caretpos, fuzzy, skipVejnavn
   if(skipVejnavn) {
     params.startfra = 'adgangsadresse';
   }
-  const adgangsadresseRestricted = !!adgangsadresseid;
 
-  // Vi begrænser kun til en bestemt adgangsadresseid én gang
-  adgangsadresseid = null;
-
-  return doFetch(baseUrl, params).then(result =>  {
-    const processedResult = processResults(q, result);
-    if(adgangsadresseRestricted && processedResult.length === 1) {
-      return processedResult;
-      // der er kun en adresse på adgangsadressen
-      // element.val(processedResult[0].value.tekst);
-      // element.selectionStart = caretpos = processedResult[0].value.caretpos;
-      // element.autocomplete('close');
-      // autocompleteWidget._trigger('select', null, processedResult[0].value);
-    }
-    else {
-      return processedResult;
-    }
-  });
+  return doFetch(baseUrl, params).then(result =>  processResults(q, result, stormodtagereEnabled));
 };
 
 export class AutocompleteController {
@@ -120,7 +114,8 @@ export class AutocompleteController {
     this.selectCallback = options.selectCallback;
     this.baseUrl = options.baseUrl;
     this.type = options.type;
-    console.log('minLength: ' + this.minLength);
+    this.fuzzy = options.fuzzy;
+    this.stormodtagerpostnumre = options.stormodtagerpostnumre;
   }
 
   setRenderCallback(renderCallback) {
@@ -150,7 +145,7 @@ export class AutocompleteController {
       const caretpos = item.caretpos;
       const adgangsadresseid = item.type === 'adgangsadresse' ? item.data.id : null;
       const skipVejnavn = item.type === 'vejnavn';
-      getAutocompleteResponse(this.baseUrl, this.type, text, caretpos, true, skipVejnavn, adgangsadresseid).then(result => {
+      getAutocompleteResponse(this.baseUrl, this.type, text, caretpos, this.fuzzy, this.stormodtagerpostnumre, skipVejnavn, adgangsadresseid).then(result => {
         if(result.length === 1) {
           const item = result[0];
           if(item.type === this.type) {

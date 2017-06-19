@@ -3,7 +3,7 @@ import {AutocompleteController} from './autocomplete-controller.js';
 
 export function dawaAutocomplete(containerElm, options) {
   options = options || {};
-  const controllerOptions = ['baseUrl', 'minLength'].reduce((memo, optionName)=> {
+  const controllerOptions = ['baseUrl', 'minLength', 'params', 'fuzzy', 'stormodtagerpostnumre'].reduce((memo, optionName)=> {
     if(options.hasOwnProperty(optionName)) {
       memo[optionName] = options[optionName];
     }

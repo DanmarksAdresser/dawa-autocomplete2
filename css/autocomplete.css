@@ -1,6 +1,15 @@
-.autocomplete-suggestions {
+.autocomplete-container {
+    position: relative;
+    width: 500px;
+}
+
+.autocomplete-container input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dawa-autocomplete-suggestions {
     text-align: left;
-    cursor: default;
     border: 1px solid #ccc;
     border-top: 0;
     background: #fff;
@@ -8,29 +17,23 @@
 
     /* core styles should not be changed */
     position: absolute;
+    left: 0;
+    right: 0;
     z-index: 9999;
-    max-height: 254px;
     overflow: hidden;
     overflow-y: auto;
     box-sizing: border-box;
 }
 
-.autocomplete-suggestion {
+.dawa-autocomplete-suggestions .dawa-autocomplete-suggestion {
+    cursor: pointer;
     position: relative;
     padding: 0 .6em;
-    line-height: 23px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 1.02em;
+    line-height: 1.5em;
+    overflow-y: hidden;
     color: #333;
 }
 
-.autocomplete-suggestion b {
-    font-weight: normal;
-    color: #1f8dd6;
-}
-
-.autocomplete-suggestion.selected {
+.dawa-autocomplete-suggestions .dawa-autocomplete-suggestion.dawa-selected, .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:hover {
     background: #f0f0f0;
 }

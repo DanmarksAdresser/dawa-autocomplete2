@@ -10,7 +10,8 @@
     "wdio": "wdio",
     "karma": "karma start --single-run",
     "test-e2e": "run-p -r serve wdio",
-    "test": "run-s karma test-e2e"
+    "test": "run-s karma test-e2e",
+    "dev": "run-p -r serve watch"
   },
   "author": "",
   "license": "ISC",
@@ -40,6 +41,7 @@
     "rollup-watch": "^4.0.0",
     "ts-csp": "^0.7.2",
     "wdio-mocha-framework": "^0.5.10",
+    "wdio-selenium-standalone-service": "0.0.9",
     "webdriverio": "^4.8.0"
   },
   "dependencies": {
