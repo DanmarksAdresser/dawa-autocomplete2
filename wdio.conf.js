@@ -9,7 +9,7 @@ exports.config = {
     './test-e2e/**/*.test.js'
   ],
   capabilities: [{
-    browserName: 'chrome',
+    browser: 'chrome',
     name: 'local_test',
     build: 'webdriver-browserstack',
     'browserstack.local': true
