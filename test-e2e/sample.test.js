@@ -20,9 +20,7 @@ describe('Autocomplete', function () {
     const inputSelector = '#autocomplete-default';
     // click to set focus on input
     await browser.click(inputSelector);
-    await browser.keys('rentemes');
-    await sleep(1000);
-    await browser.keys('t');
+    await browser.keys('rentemest');
     const vejnavnRentemestervejSelector = 'div.autocomplete-suggestion*=Rentemestervej';
     await browser.waitForExist(vejnavnRentemestervejSelector);
     await browser.click(vejnavnRentemestervejSelector);

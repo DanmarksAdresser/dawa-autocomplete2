@@ -3,7 +3,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import closure from 'rollup-plugin-closure-compiler-js';
-
+import globals from 'rollup-plugin-node-globals';
 export default {
   entry: 'src/dawa-autocomplete-ng.js',
   format: 'iife',
@@ -11,6 +11,7 @@ export default {
   plugins: [
     resolve(),
     commonjs(),
+    globals(),
     babel({
       "presets": [
         "es2015-rollup"

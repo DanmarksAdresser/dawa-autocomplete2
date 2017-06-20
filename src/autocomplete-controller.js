@@ -90,24 +90,10 @@ const doFetch = (baseUrl, params) => {
   }).then(result => result.json());
 };
 
-const  getAutocompleteResponse = (baseUrl, type, q, caretpos, fuzzy, stormodtagereEnabled, skipVejnavn, adgangsadresseid) => {
-  const params = {q: q, type: type, caretpos: caretpos};
-  if(fuzzy) {
-    params.fuzzy = '';
-  }
-  if(adgangsadresseid) {
-    params.adgangsadresseid = adgangsadresseid;
-  }
-  if(skipVejnavn) {
-    params.startfra = 'adgangsadresse';
-  }
-
-  return doFetch(baseUrl, params).then(result =>  processResults(q, result, stormodtagereEnabled));
-};
-
 export class AutocompleteController {
   constructor(options) {
     options = Object.assign({}, defaultOptions, options || {});
+    this.options = options;
     this.minLength = options.minLength;
     this.debounce = options.debounce;
     this.renderCallback = options.renderCallback;
@@ -116,52 +102,127 @@ export class AutocompleteController {
     this.type = options.type;
     this.fuzzy = options.fuzzy;
     this.stormodtagerpostnumre = options.stormodtagerpostnumre;
+    this.state = {
+      currentRequest: null,
+      pendingRequest: null
+    }
   }
 
+  _getAutocompleteResponse(text, caretpos, skipVejnavn, adgangsadresseid) {
+    const params = {q: text, type: this.options.type, caretpos: caretpos};
+    if (this.options.fuzzy) {
+      params.fuzzy = '';
+    }
+    if (adgangsadresseid) {
+      params.adgangsadresseid = adgangsadresseid;
+    }
+    if (skipVejnavn) {
+      params.startfra = 'adgangsadresse';
+    }
+
+    return doFetch(this.options.baseUrl, params).then(result => processResults(text, result, this.options.stormodtagerpostnumre));
+  };
+
+  _scheduleRequest(request) {
+    if(this.state.currentRequest !== null) {
+      this.state.pendingRequest = request;
+    }
+    else {
+      this.state.currentRequest = request;
+      this._executeRequest();
+    }
+  }
+
+  _executeRequest() {
+    const request = this.state.currentRequest;
+    let adgangsadresseid = null;
+    let skipVejnavn = false;
+    let text, caretpos;
+    if(request.selected) {
+      const item = request.selected;
+      if(item.type !== this.options.type) {
+        adgangsadresseid = item.type === 'adgangsadresse' ? item.data.id : null;
+        skipVejnavn = item.type === 'vejnavn';
+        text = item.tekst;
+        caretpos = item.caretpos;
+      }
+      else {
+        this.options.selectCallback(item);
+        this._requestCompleted();
+      }
+    }
+    else {
+      text = request.text;
+      caretpos = request.caretpos;
+    }
+    if(request.selected || request.text.length >= this.options.minLength) {
+      this._getAutocompleteResponse(text, caretpos, skipVejnavn, adgangsadresseid).then(result => this._handleResponse(request, result));
+    }
+    else {
+      this._handleResponse(request, []);
+    }
+  }
+
+  _handleResponse(request, result) {
+    if(request.selected) {
+      if(result.length === 1) {
+        const item = result[0];
+        if(item.type === this.options.type) {
+          this.options.selectCallback(item);
+        }
+        else {
+          if(!this.state.pendingRequest) {
+            this.state.pendingRequest = {
+              selected: item
+            };
+          }
+        }
+      }
+      else if(this.options.renderCallback) {
+        this.options.renderCallback(result);
+      }
+    }
+    else {
+      if(this.options.renderCallback) {
+        this.options.renderCallback(result);
+      }
+    }
+    this._requestCompleted();
+  }
+
+  _requestCompleted() {
+    this.state.currentRequest = this.state.pendingRequest;
+    this.state.pendingRequest = null;
+    if(this.state.currentRequest) {
+      this._executeRequest();
+    }
+  }
+
+
   setRenderCallback(renderCallback) {
-    this.renderCallback = renderCallback;
+    this.options.renderCallback = renderCallback;
   }
 
   setSelectCallback(selectCallback) {
-    this.selectCallback = selectCallback;
+    this.options.selectCallback = selectCallback;
   }
 
   update(text, caretpos) {
-    if(text.length >= this.minLength) {
-      getAutocompleteResponse(this.baseUrl, this.type, text, caretpos, true, false, null).then(result => {
-        if(this.renderCallback) {
-          this.renderCallback(result);
-        }
-      });
-    }
-    else {
-      this.renderCallback([]);
-    }
+    const request = {
+      text,
+      caretpos
+    };
+    this._scheduleRequest(request);
   }
 
   select(item) {
-    if(item.type !== this.type) {
-      const text = item.tekst;
-      const caretpos = item.caretpos;
-      const adgangsadresseid = item.type === 'adgangsadresse' ? item.data.id : null;
-      const skipVejnavn = item.type === 'vejnavn';
-      getAutocompleteResponse(this.baseUrl, this.type, text, caretpos, this.fuzzy, this.stormodtagerpostnumre, skipVejnavn, adgangsadresseid).then(result => {
-        if(result.length === 1) {
-          const item = result[0];
-          if(item.type === this.type) {
-            this.selectCallback(item);
-          }
-          else {
-            this.select(item);
-          }
-        }
-        else if(this.renderCallback) {
-          this.renderCallback(result);
-        }
-      });
+    if(item.type !== this.options.type) {
+      const request = {
+        selected: item
+      };
+      this._scheduleRequest(request);
     }
     else {
-      this.selectCallback(item);
     }
 
   }
