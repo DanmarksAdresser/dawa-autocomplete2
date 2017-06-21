@@ -8,23 +8,24 @@ exports.config = {
   specs: [
     './test-e2e/**/*.test.js'
   ],
-  capabilities: [{
+  capabilities: [
+    {
     browser: 'chrome',
     name: 'chrome_local',
     build: 'webdriver-browserstack',
     'browserstack.local': true
+  },
+   {
+    'os': 'Windows',
+    'os_version': '7',
+    'browser': 'IE',
+    'browser_version': '11.0',
+    'resolution': '1024x768',
+    name: 'IE11-local',
+    build: 'webdriver-browserstack',
+    'browserstack.local': true
+
   }
-  // , {
-  //   'os': 'Windows',
-  //   'os_version': '7',
-  //   'browser': 'IE',
-  //   'browser_version': '11.0',
-  //   'resolution': '1024x768',
-  //   name: 'IE11-local',
-  //   build: 'webdriver-browserstack',
-  //   'browserstack.local': true
-  //
-  // }
   , {
     'os': 'Windows',
     'os_version': '10',
@@ -33,8 +34,8 @@ exports.config = {
     name: 'Edge-local',
     build: 'webdriver-browserstack',
     'browserstack.local': true
-  }
-  , {
+  },
+  {
     'os': 'OS X',
     'os_version': 'Sierra',
     'browser': 'Safari',
@@ -42,14 +43,12 @@ exports.config = {
     build: 'webdriver-browserstack',
     'browserstack.local': true
   }
-  // , {
-  //   'browserName': 'iPhone',
-  //   'platform': 'MAC',
-  //   'device': 'iPhone 5',
-  //   name: 'Iphone5-local',
-  //   build: 'webdriver-browserstack',
-  //   'browserstack.local': true
-  // }
+  ,
+  //   {
+  //     'browserName': 'iPhone',
+  //     'platform': 'MAC',
+  //     'device': 'iPhone 6'
+  //   }
   // , {
   //   'browserName': 'android',
   //   'platform': 'ANDROID',

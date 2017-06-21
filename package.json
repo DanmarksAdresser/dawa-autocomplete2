@@ -1,7 +1,7 @@
 {
-  "name": "dawa-autocomplete-ng",
+  "name": "dawa-autocomplete2",
   "version": "0.1.0",
-  "description": "DAWA Autocomplete",
+  "description": "DAWA Autocomplete komponent",
   "main": "dist/dawa-autocomplete-ng.js",
   "module": "dist/dawa-autocomplete.ng.es.js",
   "author": "Anders Hessellund Jensen",

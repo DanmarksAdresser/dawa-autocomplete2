@@ -48,7 +48,9 @@ describe('Autocomplete', function () {
     await browser.waitForExist(adgadrSelector);
     await browser.click(adgadrSelector);
     await browser.waitUntil(async () => (await browser.getValue(inputSelector)) === 'Margrethepladsen 4, , 8000 Aarhus C');
-    const caretPos = await browser.selectorExecute(inputSelector, (inputElm => inputElm[0].selectionStart));
+    const caretPos = await browser.selectorExecute(inputSelector, function(inputElm)  {
+      return inputElm[0].selectionStart;
+    });
     assert.strictEqual(caretPos, 'Margrethepladsen 4, '.length);
   });
 });
