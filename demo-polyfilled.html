@@ -28,12 +28,25 @@
 </div>
 </body>
 <script>
-  dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-default"), {});
+  dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-default"), {
+    select: (selected) => {
+      console.log('Selected address:');
+      console.dir(selected);
+    }
+  });
   dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-adgangsadresser-only"), {
-    adgangsadresserOnly: true
+    adgangsadresserOnly: true,
+    select: (selected) => {
+      console.log('Selected address:');
+      console.dir(selected);
+    }
   });
   dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-minlength-3"), {
-    minLength: 3
+    minLength: 3,
+    select: (selected) => {
+      console.log('Selected address:');
+      console.dir(selected);
+    }
   });
 </script>
 </html>

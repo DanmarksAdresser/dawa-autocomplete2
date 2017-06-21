@@ -1,8 +1,8 @@
 import {autocompleteUi} from './autocomplete-ui.js';
 import {AutocompleteController} from './autocomplete-controller.js';
 
-export function dawaAutocomplete(containerElm, options) {
-  options = options || {};
+export function dawaAutocomplete(inputElm, options) {
+  options = Object.assign({select: () => null}, options);
   const controllerOptions = ['baseUrl', 'minLength', 'params', 'fuzzy', 'stormodtagerpostnumre'].reduce((memo, optionName)=> {
     if(options.hasOwnProperty(optionName)) {
       memo[optionName] = options[optionName];
@@ -16,7 +16,7 @@ export function dawaAutocomplete(containerElm, options) {
     controllerOptions.type = 'adresse';
   }
   const controller = new AutocompleteController(controllerOptions);
-  const ui = autocompleteUi(containerElm, {
+  const ui = autocompleteUi(inputElm, {
     onSelect: (suggestion) => {
       controller.select(suggestion);
     },
@@ -26,9 +26,8 @@ export function dawaAutocomplete(containerElm, options) {
   });
   controller.setRenderCallback(suggestions => ui.setSuggestions(suggestions));
   controller.setSelectCallback(selected => {
-    console.log('Selected address:');
-    console.dir(selected);
     ui.selectAndClose(selected.forslagstekst);
-  })
+    options.select(selected);
+  });
 }
 
