@@ -5,7 +5,7 @@ import babel from 'rollup-plugin-babel';
 import closure from 'rollup-plugin-closure-compiler-js';
 import globals from 'rollup-plugin-node-globals';
 export default {
-  entry: 'src/dawa-autocomplete-ng.js',
+  entry: 'src/dawa-autocomplete2.js',
   moduleName: 'dawaAutocomplete',
   plugins: [
     resolve(),
@@ -19,5 +19,5 @@ export default {
     closure()
   ],
   format: 'umd',
-  dest: 'dist/dawa-autocomplete-ng.min.js'
+  dest: 'dist/dawa-autocomplete2.min.js'
 };
