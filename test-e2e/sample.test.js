@@ -21,11 +21,11 @@ describe('Autocomplete', function () {
     // click to set focus on input
     await browser.click(inputSelector);
     await browser.keys('rentemest');
-    const vejnavnRentemestervejSelector = 'div.autocomplete-suggestion*=Rentemestervej';
+    const vejnavnRentemestervejSelector = '.autocomplete-suggestion*=Rentemestervej';
     await browser.waitForExist(vejnavnRentemestervejSelector);
     await browser.click(vejnavnRentemestervejSelector);
     await browser.waitUntil(async () => (await browser.getValue(inputSelector)) === 'Rentemestervej ');
-    const adgadrSuggestionSelector = 'div.autocomplete-suggestion*=Rentemestervej 4';
+    const adgadrSuggestionSelector = '.autocomplete-suggestion*=Rentemestervej 4';
     await browser.waitForExist(adgadrSuggestionSelector);
     await browser.addValue(inputSelector, '4, 24');
     assert.strictEqual(await browser.getValue(inputSelector), 'Rentemestervej 4, 24');
@@ -44,7 +44,7 @@ describe('Autocomplete', function () {
     // click to set focus on input
     await browser.click(inputSelector);
     await browser.keys('margrethepladsen ');
-    const adgadrSelector = 'div.autocomplete-suggestion=Margrethepladsen 4, 8000 Aarhus C';
+    const adgadrSelector = '.autocomplete-suggestion=Margrethepladsen 4, 8000 Aarhus C';
     await browser.waitForExist(adgadrSelector);
     await browser.click(adgadrSelector);
     await browser.waitUntil(async () => (await browser.getValue(inputSelector)) === 'Margrethepladsen 4, , 8000 Aarhus C');
