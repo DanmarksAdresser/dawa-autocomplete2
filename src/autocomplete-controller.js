@@ -149,6 +149,7 @@ export class AutocompleteController {
       else {
         this.options.selectCallback(item);
         this._requestCompleted();
+        return;
       }
     }
     else {
@@ -167,6 +168,7 @@ export class AutocompleteController {
     if(request.selected) {
       if(result.length === 1) {
         const item = result[0];
+        console.log(item.type + ' ' + this.options.type);
         if(item.type === this.options.type) {
           this.options.selectCallback(item);
         }
@@ -216,15 +218,10 @@ export class AutocompleteController {
   }
 
   select(item) {
-    if(item.type !== this.options.type) {
-      const request = {
-        selected: item
-      };
-      this._scheduleRequest(request);
-    }
-    else {
-    }
-
+    const request = {
+      selected: item
+    };
+    this._scheduleRequest(request);
   }
 
   destroy() {

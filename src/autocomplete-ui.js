@@ -102,23 +102,23 @@ export const autocompleteUi = (inputElm, options) => {
 
   const render = (data) => {
     if (data.suggestions.length > 0 && data.focused) {
-      elementOpen('div', '', ['class', 'dawa-autocomplete-suggestions']);
+      elementOpen('ul', '', ['class', 'dawa-autocomplete-suggestions', 'role', 'listbox']);
       for (let i = 0; i < data.suggestions.length; ++i) {
         const suggestion = data.suggestions[i];
         let className = 'dawa-autocomplete-suggestion';
         if (data.selected === i) {
           className += ' dawa-selected';
         }
-        elementOpen('div', '', [],
+        elementOpen('li', '', ['role', 'option'],
           'class', className,
           'onmousedown', (e) => {
             selectSuggestion(i);
             e.preventDefault();
           });
         text(suggestion.forslagstekst);
-        elementClose('div');
+        elementClose('li');
       }
-      elementClose('div');
+      elementClose('ul');
     }
   };
 
@@ -158,6 +158,7 @@ export const autocompleteUi = (inputElm, options) => {
     inputElm.removeEventListener('mouseup', inputMouseUpHandler);
     patch(suggestionContainerElm, () => {
     });
+    suggestionContainerElm.remove();
   };
 
   const setSuggestions = suggestions => {
@@ -179,6 +180,8 @@ export const autocompleteUi = (inputElm, options) => {
   inputElm.addEventListener('focus', focusHandler);
   inputElm.addEventListener('input', inputChangeHandler);
   inputElm.addEventListener('mouseup', inputMouseUpHandler);
+  inputElm.setAttribute('aria-autocomplete', 'list');
+  inputElm.setAttribute('autocomplete', 'off');
 
   return {
     destroy,
