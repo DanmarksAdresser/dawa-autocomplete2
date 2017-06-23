@@ -1,4 +1,5 @@
 const defaultOptions = {
+  params: {},
   minLength: 2,
   debounce: 200,
   renderCallback: suggestions =>  {
@@ -109,7 +110,7 @@ export class AutocompleteController {
   }
 
   _getAutocompleteResponse(text, caretpos, skipVejnavn, adgangsadresseid) {
-    const params = {q: text, type: this.options.type, caretpos: caretpos};
+    const params = Object.assign({}, this.options.params, {q: text, type: this.options.type, caretpos: caretpos});
     if (this.options.fuzzy) {
       params.fuzzy = '';
     }

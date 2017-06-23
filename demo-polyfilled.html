@@ -13,37 +13,47 @@
 <h3>Default options</h3>
 <div class="autocomplete-container">
     <input id="autocomplete-default">
-    </div>
 </div>
 
 <h3>adgangsadresserOnly=true</h3>
 <div class="autocomplete-container">
     <input id="autocomplete-adgangsadresser-only">
-    </input>
 </div>
 <h3>minLength=3</h3>
 <div class="autocomplete-container">
     <input id="autocomplete-minlength-3">
-    </input>
+</div>
+<h3>kommunekode=101</h3>
+<div class="autocomplete-container">
+    <input id="autocomplete-kommunekode-101">
 </div>
 </body>
 <script>
   dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-default"), {
-    select: (selected) => {
+    select: function(selected) {
       console.log('Selected address:');
       console.dir(selected);
     }
   });
   dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-adgangsadresser-only"), {
     adgangsadresserOnly: true,
-    select: (selected) => {
+    select: function(selected) {
       console.log('Selected address:');
       console.dir(selected);
     }
   });
   dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-minlength-3"), {
     minLength: 3,
-    select: (selected) => {
+    select: function(selected) {
+      console.log('Selected address:');
+      console.dir(selected);
+    }
+  });
+  dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-kommunekode-101"), {
+    params: {
+      kommunekode: 101
+    },
+    select: function(selected) {
       console.log('Selected address:');
       console.dir(selected);
     }
