@@ -1,34 +1,44 @@
+const formatParams = params => {
+  return Object.keys(params).map(paramName => {
+    const paramValue = params[paramName];
+    return `${paramName}=${encodeURIComponent(paramValue)}`;
+  }).join('&');
+};
+
 const defaultOptions = {
   params: {},
   minLength: 2,
   debounce: 200,
-  renderCallback: suggestions =>  {
+  renderCallback: suggestions => {
     console.error('No renderCallback supplied');
   },
   type: 'adresse',
   baseUrl: 'https://dawa.aws.dk',
   adgangsadresserOnly: false,
   stormodtagerpostnumre: true,
-  fuzzy: true
+  fuzzy: true,
+  fetchImpl: (baseUrl, params) => fetch(`${baseUrl}/autocomplete?${formatParams(params)}`, {
+    mode: 'cors'
+  }).then(result => result.json())
 };
 
 // Beregner adressetekst hvor stormodtagerpostnummer anvendes.
-const  stormodtagerAdresseTekst = data => {
+const stormodtagerAdresseTekst = data => {
   let adresse = data.vejnavn;
-  if(data.husnr) {
+  if (data.husnr) {
     adresse += ' ' + data.husnr;
   }
-  if(data.etage || data['dør']) {
+  if (data.etage || data['dør']) {
     adresse += ',';
   }
-  if(data.etage) {
+  if (data.etage) {
     adresse += ' ' + data.etage + '.';
   }
-  if(data['dør']) {
+  if (data['dør']) {
     adresse += ' ' + data['dør'];
   }
   adresse += ', ';
-  if(data.supplerendebynavn) {
+  if (data.supplerendebynavn) {
     adresse += data.supplerendebynavn + ', ';
   }
   adresse += data.stormodtagerpostnr + ' ' + data.stormodtagerpostnrnavn;
@@ -36,8 +46,8 @@ const  stormodtagerAdresseTekst = data => {
 };
 
 const processResultsStormodtagere = (q, result) => {
-  return result.reduce(function(memo, row) {
-    if((row.type === 'adgangsadresse' || row.type === 'adresse') && row.data.stormodtagerpostnr) {
+  return result.reduce(function (memo, row) {
+    if ((row.type === 'adgangsadresse' || row.type === 'adresse') && row.data.stormodtagerpostnr) {
       // Vi har modtaget et stormodtagerpostnr. Her vil vi muligvis gerne vise stormodtagerpostnummeret
       const stormodtagerEntry = Object.assign({}, row);
       stormodtagerEntry.tekst = stormodtagerAdresseTekst(row.data);
@@ -46,18 +56,18 @@ const processResultsStormodtagere = (q, result) => {
       let rows = [];
       // Omvendt, hvis brugeren har indtastet den almindelige adresse eksakt, så er der ingen
       // grund til at vise stormodtagerudgaven
-      if(q !== stormodtagerEntry.tekst) {
+      if (q !== stormodtagerEntry.tekst) {
         rows.push(row);
       }
 
       // Hvis brugeren har indtastet stormodtagerudgaven af adressen eksakt, så viser vi
       // ikke den almindelige udgave
-      if(q !== row.tekst) {
+      if (q !== row.tekst) {
         rows.push(stormodtagerEntry);
       }
 
       // brugeren har indtastet stormodtagerpostnummeret, såvi viser stormodtager udgaven først.
-      if(rows.length > 1 && q.indexOf(row.data.stormodtagerpostnr) !== -1) {
+      if (rows.length > 1 && q.indexOf(row.data.stormodtagerpostnr) !== -1) {
         rows = [rows[1], rows[0]];
       }
       memo = memo.concat(rows);
@@ -70,7 +80,7 @@ const processResultsStormodtagere = (q, result) => {
 }
 
 const processResults = (q, result, stormodtagereEnabled) => {
-  if(stormodtagereEnabled) {
+  if (stormodtagereEnabled) {
     return processResultsStormodtagere(q, result);
   }
   else {
@@ -78,31 +88,10 @@ const processResults = (q, result, stormodtagereEnabled) => {
   }
 };
 
-const formatParams = params => {
-  return Object.keys(params).map(paramName => {
-    const paramValue = params[paramName];
-    return `${paramName}=${encodeURIComponent(paramValue)}`;
-  }).join('&');
-}
-
-const doFetch = (baseUrl, params) => {
-  return fetch(`${baseUrl}/autocomplete?${formatParams(params)}`, {
-    mode: 'cors'
-  }).then(result => result.json());
-};
-
 export class AutocompleteController {
   constructor(options) {
     options = Object.assign({}, defaultOptions, options || {});
     this.options = options;
-    this.minLength = options.minLength;
-    this.debounce = options.debounce;
-    this.renderCallback = options.renderCallback;
-    this.selectCallback = options.selectCallback;
-    this.baseUrl = options.baseUrl;
-    this.type = options.type;
-    this.fuzzy = options.fuzzy;
-    this.stormodtagerpostnumre = options.stormodtagerpostnumre;
     this.state = {
       currentRequest: null,
       pendingRequest: null
@@ -110,7 +99,11 @@ export class AutocompleteController {
   }
 
   _getAutocompleteResponse(text, caretpos, skipVejnavn, adgangsadresseid) {
-    const params = Object.assign({}, this.options.params, {q: text, type: this.options.type, caretpos: caretpos});
+    const params = Object.assign({}, this.options.params, {
+      q: text,
+      type: this.options.type,
+      caretpos: caretpos
+    });
     if (this.options.fuzzy) {
       params.fuzzy = '';
     }
@@ -121,11 +114,12 @@ export class AutocompleteController {
       params.startfra = 'adgangsadresse';
     }
 
-    return doFetch(this.options.baseUrl, params).then(result => processResults(text, result, this.options.stormodtagerpostnumre));
+    return this.options.fetchImpl(this.options.baseUrl, params)
+      .then(result => processResults(text, result, this.options.stormodtagerpostnumre));
   };
 
   _scheduleRequest(request) {
-    if(this.state.currentRequest !== null) {
+    if (this.state.currentRequest !== null) {
       this.state.pendingRequest = request;
     }
     else {
@@ -139,9 +133,9 @@ export class AutocompleteController {
     let adgangsadresseid = null;
     let skipVejnavn = false;
     let text, caretpos;
-    if(request.selected) {
+    if (request.selected) {
       const item = request.selected;
-      if(item.type !== this.options.type) {
+      if (item.type !== this.options.type) {
         adgangsadresseid = item.type === 'adgangsadresse' ? item.data.id : null;
         skipVejnavn = item.type === 'vejnavn';
         text = item.tekst;
@@ -157,7 +151,7 @@ export class AutocompleteController {
       text = request.text;
       caretpos = request.caretpos;
     }
-    if(request.selected || request.text.length >= this.options.minLength) {
+    if (request.selected || request.text.length >= this.options.minLength) {
       this._getAutocompleteResponse(text, caretpos, skipVejnavn, adgangsadresseid).then(result => this._handleResponse(request, result));
     }
     else {
@@ -166,27 +160,26 @@ export class AutocompleteController {
   }
 
   _handleResponse(request, result) {
-    if(request.selected) {
-      if(result.length === 1) {
+    if (request.selected) {
+      if (result.length === 1) {
         const item = result[0];
-        console.log(item.type + ' ' + this.options.type);
-        if(item.type === this.options.type) {
+        if (item.type === this.options.type) {
           this.options.selectCallback(item);
         }
         else {
-          if(!this.state.pendingRequest) {
+          if (!this.state.pendingRequest) {
             this.state.pendingRequest = {
               selected: item
             };
           }
         }
       }
-      else if(this.options.renderCallback) {
+      else if (this.options.renderCallback) {
         this.options.renderCallback(result);
       }
     }
     else {
-      if(this.options.renderCallback) {
+      if (this.options.renderCallback) {
         this.options.renderCallback(result);
       }
     }
@@ -196,7 +189,7 @@ export class AutocompleteController {
   _requestCompleted() {
     this.state.currentRequest = this.state.pendingRequest;
     this.state.pendingRequest = null;
-    if(this.state.currentRequest) {
+    if (this.state.currentRequest) {
       this._executeRequest();
     }
   }

@@ -66,15 +66,18 @@ export const autocompleteUi = (inputElm, options) => {
       if (key === 40) {
         data.selected = (data.selected + 1) % data.suggestions.length;
         update();
+        e.preventDefault();
       }
       //up (38)
       else if (key === 38) {
         data.selected = (data.selected - 1 + data.suggestions.length) % data.suggestions.length;
         update();
+        e.preventDefault();
       }
       // enter
       else if (key === 13 || key === 9) {
         selectSuggestion(data.selected);
+        e.preventDefault();
       }
       else {
         return true;

@@ -1,9 +1,5 @@
 "use strict";
 
-const sleep = (ms) => new Promise((resolve, reject) => {
-  setTimeout(() => resolve(new Error('Timeout')), ms);
-});
-
 const assert = require('chai').assert;
 
 describe('Autocomplete', function () {
@@ -74,7 +70,5 @@ describe('Autocomplete', function () {
     // key up
     browser.keys("ArrowUp");
     await browser.waitForExist('.dawa-selected=Margretheparken');
-
-
   });
 });
