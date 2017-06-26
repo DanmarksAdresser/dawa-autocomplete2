@@ -2,8 +2,8 @@
 import "regenerator-runtime/runtime";
 
 import {go, Channel} from 'ts-csp';
-import {assert } from 'chai';
-import { AutocompleteController } from '../src/autocomplete-controller';
+import {assert} from 'chai';
+import {AutocompleteController} from '../src/autocomplete-controller';
 
 const sleep = (ms) => new Promise((resolve, reject) => {
   setTimeout(() => resolve(new Error('Timeout')), ms);
@@ -14,7 +14,7 @@ const deepEqual = (a, b) => {
     assert.deepEqual(a, b);
     return true;
   }
-  catch(e) {
+  catch (e) {
     return false;
   }
 }
@@ -23,8 +23,8 @@ const fakeFetchImpl = responses => {
   const pending = [];
   const fetchImpl = (baseUrl, params) => {
 
-    for(let response of responses) {
-      if(deepEqual(params, response[0])) {
+    for (let response of responses) {
+      if (deepEqual(params, response[0])) {
         return new Promise((resolve) => {
           pending.push(() => {
             resolve(response[1])
@@ -44,7 +44,7 @@ const fakeFetchImpl = responses => {
 };
 
 describe('Autocomplete controller', () => {
-  it('Basic autocomplete flow', () =>  go(function*() {
+  it('Basic autocomplete flow', () => go(function*() {
     const controller = new AutocompleteController({});
     const renderings = new Channel();
     controller.setRenderCallback((suggestions => {
@@ -57,7 +57,7 @@ describe('Autocomplete controller', () => {
     assert.strictEqual(vejnavnSuggestions[1].tekst, 'Margrethepladsen ');
   }));
 
-  it('Executes at most one parallel request', () => go(function*() {
+  it('Højt 1 parallelt request', () => go(function*() {
     const fetchImpl = fakeFetchImpl([
       [{q: 'marg', caretpos: 'marg'.length, type: 'adresse', fuzzy: ''}, []],
       [{q: 'margre', caretpos: 'margre'.length, type: 'adresse', fuzzy: ''}, []]]);
@@ -73,4 +73,61 @@ describe('Autocomplete controller', () => {
     yield sleep(0);
     assert.strictEqual(fetchImpl.pending().length, 0);
   }));
+
+  it('Ved valg af vejnavn søges i adgangsadresser', () => go(function*() {
+    const fetchImpl = fakeFetchImpl([
+      [{
+        q: 'Margrethepladsen ',
+        caretpos: 'Margrethepladsen '.length,
+        type: 'adresse',
+        fuzzy: '',
+        startfra: 'adgangsadresse'
+      }, []]]);
+    const controller = new AutocompleteController({fetchImpl});
+    const vejnavn = {
+      "type": "vejnavn",
+      "tekst": "Margrethepladsen ",
+      "forslagstekst": "Margrethepladsen",
+      "caretpos": 17,
+      "data": {
+        "href": "http://dawa.aws.dk/vejnavne/Margrethepladsen",
+        "navn": "Margrethepladsen"
+      }
+    };
+    controller.select(vejnavn);
+  }));
+
+  it('Ved valg af adgangsadresse søges i adresser', () => go(function*() {
+    const adgangsadresse = {
+      "type": "adgangsadresse",
+      "tekst": "Margrethepladsen 4, , 8000 Aarhus C",
+      "forslagstekst": "Margrethepladsen 4, 8000 Aarhus C",
+      "caretpos": 20,
+      "data": {
+        "id": "0a3f5096-91d3-32b8-e044-0003ba298018",
+        "href": "http://dawa.aws.dk/adgangsadresser/0a3f5096-91d3-32b8-e044-0003ba298018",
+        "vejnavn": "Margrethepladsen",
+        "husnr": "4",
+        "supplerendebynavn": null,
+        "postnr": "8000",
+        "postnrnavn": "Aarhus C",
+        "stormodtagerpostnr": null,
+        "stormodtagerpostnrnavn": null
+      }
+    };
+    const expectedRequest = {
+      q: adgangsadresse.tekst,
+      caretpos: adgangsadresse.caretpos,
+      type: 'adresse',
+      fuzzy: '',
+      adgangsadresseid:  adgangsadresse.data.id
+    };
+    const fetchImpl = fakeFetchImpl([
+      [expectedRequest, []]]);
+    const controller = new AutocompleteController({fetchImpl});
+    controller.select(adgangsadresse);
+  }));
+
+  
+
 });
