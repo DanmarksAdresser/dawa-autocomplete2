@@ -50,6 +50,13 @@ exports.config = {
       build: 'webdriver-browserstack',
       'browserstack.local': true,
       'browserstack.debug': true
+    },
+    {
+      'os': 'Windows',
+      'os_version': '10',
+      'browser': 'Firefox',
+      'browserstack.local': true,
+      'browserstack.debug': true
     }
     ,
     //   {

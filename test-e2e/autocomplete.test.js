@@ -20,7 +20,7 @@ describe('Autocomplete', function () {
     const inputSelector = '#autocomplete-default';
     // click to set focus on input
     await browser.click(inputSelector);
-    await browser.keys('rentemest');
+    await browser.setValue(inputSelector, 'rentemest');
     const vejnavnRentemestervejSelector = '.autocomplete-suggestion*=Rentemestervej';
     await browser.waitForExist(vejnavnRentemestervejSelector);
     await browser.click(vejnavnRentemestervejSelector);
@@ -31,7 +31,7 @@ describe('Autocomplete', function () {
     assert.strictEqual(await browser.getValue(inputSelector), 'Rentemestervej 4, 24');
     await browser.waitForExist('.dawa-selected=Rentemestervej 4, 2400 København NV');
     // select using ENTER key
-    await browser.keys('\uE006');
+    await browser.addValue(inputSelector, '\uE006');
     await browser.waitUntil(async () => (await browser.getValue(inputSelector)) === 'Rentemestervej 4, 2400 København NV');
   });
 
@@ -43,7 +43,7 @@ describe('Autocomplete', function () {
     const inputSelector = '#autocomplete-default';
     // click to set focus on input
     await browser.click(inputSelector);
-    await browser.keys('margrethepladsen ');
+    await browser.setValue(inputSelector, 'margrethepladsen ');
     const adgadrSelector = '.dawa-autocomplete-suggestion=Margrethepladsen 4, 8000 Aarhus C';
     await browser.waitForExist(adgadrSelector);
     await browser.click(adgadrSelector);
@@ -70,13 +70,12 @@ describe('Autocomplete', function () {
     browser.addValue(inputSelector, 'ArrowDown');
     await browser.waitForExist('.dawa-selected=Margrethepladsen');
     // key down again should wrap to top
-    browser.keys("ArrowDown");
+    browser.addValue(inputSelector, 'ArrowDown');
     await browser.waitForExist('.dawa-selected=Margretheparken');
     // key up should wrap to bottom
-    browser.keys("ArrowUp");
+    browser.addValue(inputSelector, 'ArrowUp');
     await browser.waitForExist('.dawa-selected=Margrethepladsen');
-    // key up
-    browser.keys("ArrowUp");
+    browser.addValue(inputSelector, 'ArrowUp');
     await browser.waitForExist('.dawa-selected=Margretheparken');
   });
 });
