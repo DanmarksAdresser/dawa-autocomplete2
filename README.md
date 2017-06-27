@@ -12,6 +12,7 @@ med [core-js](https://github.com/zloirock/core-js) and [GitHubs fetch](https://g
 
 ## Usage
 DAWA Autocomplete2 may be installed using NPM, or it may be loaded into the browser using a <script>-tag. 
+For a working demo page, please see https://dawa.aws.dk/demo/autocomplete-polyfilled.html
 
 ### Usage via <script> tag
 First, include polyfills and the autocomplete component on the page:
@@ -22,7 +23,7 @@ First, include polyfills and the autocomplete component on the page:
 ```
 
 Some CSS rules must be added to the page in order to render the autocomplete suggestions correctly.
-All styling and positioning of the autocomplete suggestions is handled using CSS.
+All styling and positioning of the autocomplete suggestions is handled using CSS rules.
 
 The autocomplete suggestions is rendered immediately after the input-field. In order to ensure that
 they have the same width, the input field is wrapped in a DIV-element:
@@ -88,13 +89,15 @@ dawaAutocomplete.dawaAutocomplete(document.getElementById('dawa-autocomplete-inp
 });
 ```
 
-### Anvendelse via NPM
-DAWA Autocomplete2 is published in the NPM registry:
+### Usage via NPM
+DAWA Autocomplete2 is published in the NPM registry. Note that in order to use NPM modules directly for web pages,
+you need to use a tool like [Webpack](https://webpack.github.io/).
 ```bash
 npm install dawa-autocomplete2
 ```
 
-Polyfills and CSS styling is handled in the same way as above. The component is imported
+Polyfills and CSS styling is handled in the same way as above. 
+The component is imported
 and initialized like this:
 ```javascript
 var dawaAutocomplete2 = require('dawa-autocomplete2');
@@ -105,6 +108,30 @@ dawaAutocomplete2.dawaAutocomplete(inputElm, {
   }
 });
 ```
+
+### Options
+The following options are supported:
+
+ - `select`: This function is called whenever the user selects an address
+ - `baseUrl`: URL to DAWA, defaults to `https://dawa.aws.dk`
+ - `adgangsadresserOnly`: The user enters an access address, not a complete address with floor/suite. Defaults to `false`
+ - `fuzzy`: Whether fuzzy searching is enabled, defaults to `true`,
+ - `params`: A JavaScript object containing any additional parameters to send to DAWA, e.g. `{kommunekode: "101"}`
+ - `stormodtagerpostnumre`: Whether "stormodtagerpostnumre" will be displayed in suggestions. Defaults to `true`
+ - `minLength`: Number of characters which must be entered before any suggestions is displayed. Defaults to `2`.
+
+## Get help
+There is a [forum](https://digitaliser.dk/group/334445/forum) available on Digitaliser.dk. 
+Feel free to ask any questions there.
+ 
+## Contributing
+Patches are welcome. To start a development server on port 8080, first clone the repository and then run:
+
+ - `npm install`
+ - `npm run dev`
+ 
+Now you can open http://localhost:8080/demo-polyfilled.html . In order to run unit tests, execute `npm run karma`.
+In order to run browser test locally, execute `npm run wdio-local`.
  
 ## License
 Copyright © 2017 Styrelsen for Dataforsyning og Effektivisering (SDFE)

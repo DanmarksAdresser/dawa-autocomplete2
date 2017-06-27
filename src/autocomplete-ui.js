@@ -14,9 +14,40 @@ attributes.caretpos = (element, name, value) => {
 
 attributes.value = applyProp;
 
+const renderIncrementalDOM = (data, onSelect) => {
+  if (data.suggestions.length > 0 && data.focused) {
+    elementOpen('ul', '', ['class', 'dawa-autocomplete-suggestions', 'role', 'listbox']);
+    for (let i = 0; i < data.suggestions.length; ++i) {
+      const suggestion = data.suggestions[i];
+      let className = 'dawa-autocomplete-suggestion';
+      if (data.selected === i) {
+        className += ' dawa-selected';
+      }
+      elementOpen('li', '', ['role', 'option'],
+        'class', className,
+        'onmousedown', (e) => {
+          onSelect(i);
+          e.preventDefault();
+        });
+      text(suggestion.forslagstekst);
+      elementClose('li');
+    }
+    elementClose('ul');
+  }
+};
+
+
+
+const defaultRender = (containerElm, data, onSelect) => {
+  patch(containerElm, function () {
+    renderIncrementalDOM(data, onSelect);
+  });
+};
+
 export const autocompleteUi = (inputElm, options) => {
   const onSelect = options.onSelect;
   const onTextChange = options.onTextChange;
+  const render = options.render || defaultRender;
 
   let destroyed = false;
   let lastEmittedText = '';
@@ -101,28 +132,6 @@ export const autocompleteUi = (inputElm, options) => {
   };
   const inputMouseUpHandler = e => handleInputChanged(e.target);
 
-  const render = (data) => {
-    if (data.suggestions.length > 0 && data.focused) {
-      elementOpen('ul', '', ['class', 'dawa-autocomplete-suggestions', 'role', 'listbox']);
-      for (let i = 0; i < data.suggestions.length; ++i) {
-        const suggestion = data.suggestions[i];
-        let className = 'dawa-autocomplete-suggestion';
-        if (data.selected === i) {
-          className += ' dawa-selected';
-        }
-        elementOpen('li', '', ['role', 'option'],
-          'class', className,
-          'onmousedown', (e) => {
-            selectSuggestion(i);
-            e.preventDefault();
-          });
-        text(suggestion.forslagstekst);
-        elementClose('li');
-      }
-      elementClose('ul');
-    }
-  };
-
   let updateScheduled = false;
   let updateInput = false;
   update = (shouldUpdateInput) => {
@@ -141,9 +150,7 @@ export const autocompleteUi = (inputElm, options) => {
           inputElm.setSelectionRange(data.caretpos, data.caretpos);
         }
         updateInput = false;
-        patch(suggestionContainerElm, function () {
-          render(data);
-        });
+        render(suggestionContainerElm, data, i => selectSuggestion(i));
       });
     }
   };

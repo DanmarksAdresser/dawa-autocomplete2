@@ -22,7 +22,8 @@ export function dawaAutocomplete(inputElm, options) {
     },
     onTextChange: (newText, newCaretpos) => {
       controller.update(newText, newCaretpos);
-    }
+    },
+    render: options.render
   });
   controller.setRenderCallback(suggestions => ui.setSuggestions(suggestions));
   controller.setSelectCallback(selected => {
