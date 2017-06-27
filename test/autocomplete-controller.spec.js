@@ -128,6 +128,6 @@ describe('Autocomplete controller', () => {
     controller.select(adgangsadresse);
   }));
 
-  
+
 
 });

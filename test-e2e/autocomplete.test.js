@@ -2,6 +2,10 @@
 
 const assert = require('chai').assert;
 
+const sleep = (ms) => new Promise((resolve) => {
+  setTimeout(() => resolve(new Error('Timeout')), ms);
+});
+
 describe('Autocomplete', function () {
   it('can find load the demo page', async () => {
     await browser.url('http:localhost:8080/demo-polyfilled.html');
@@ -51,15 +55,19 @@ describe('Autocomplete', function () {
   });
 
   it('Kan navigere autocomplete med keyboard', async () => {
+    if(browser.desiredCapabilities.browserName === 'Safari') {
+      // Safari kan ikke håndtere keyboardnavigation via webdriver (pr. 10.1)
+      return;
+    }
     await browser.url('http:localhost:8080/demo-polyfilled.html');
     browser.execute(function () {
       window.focus();
     });
     const inputSelector = '#autocomplete-default';
     await browser.click(inputSelector);
-    await browser.keys('margrethep');
+    await browser.addValue(inputSelector, 'margrethep');
     await browser.waitForExist('.dawa-selected=Margretheparken');
-    browser.keys("ArrowDown");
+    browser.addValue(inputSelector, 'ArrowDown');
     await browser.waitForExist('.dawa-selected=Margrethepladsen');
     // key down again should wrap to top
     browser.keys("ArrowDown");

@@ -10,53 +10,61 @@ exports.config = {
   ],
   capabilities: [
     {
-    browser: 'chrome',
-    name: 'chrome_local',
-    build: 'webdriver-browserstack',
-    'browserstack.local': true
-  },
-   {
-    'os': 'Windows',
-    'os_version': '7',
-    'browser': 'IE',
-    'browser_version': '11.0',
-    'resolution': '1024x768',
-    name: 'IE11-local',
-    build: 'webdriver-browserstack',
-    'browserstack.local': true
+      browser: 'chrome',
+      browserName: 'chrome',
+      name: 'chrome_local',
+      build: 'webdriver-browserstack',
+      'browserstack.local': true,
+      'browserstack.debug': true
+    },
+    {
+      'os': 'Windows',
+      'os_version': '7',
+      'browser': 'IE',
+      browserName: 'IE',
+      'browser_version': '11.0',
+      'resolution': '1024x768',
+      name: 'IE11-local',
+      build: 'webdriver-browserstack',
+      'browserstack.local': true,
+      'browserstack.debug': true
 
-  }
-  , {
-    'os': 'Windows',
-    'os_version': '10',
-    'browser': 'Edge',
-    'resolution': '1024x768',
-    name: 'Edge-local',
-    build: 'webdriver-browserstack',
-    'browserstack.local': true
-  },
-  {
-    'os': 'OS X',
-    'os_version': 'Sierra',
-    'browser': 'Safari',
-    name: 'Safari-local',
-    build: 'webdriver-browserstack',
-    'browserstack.local': true
-  }
-  ,
-  //   {
-  //     'browserName': 'iPhone',
-  //     'platform': 'MAC',
-  //     'device': 'iPhone 6'
-  //   }
-  // , {
-  //   'browserName': 'android',
-  //   'platform': 'ANDROID',
-  //   'device': 'Samsung Galaxy S5',
-  //   name: 'S5-local',
-  //   build: 'webdriver-browserstack',
-  //   'browserstack.local': true
-  // }
+    }
+    , {
+      'os': 'Windows',
+      'os_version': '10',
+      'browser': 'Edge',
+      browserName: 'Edge',
+      'resolution': '1024x768',
+      name: 'Edge-local',
+      build: 'webdriver-browserstack',
+      'browserstack.local': true,
+      'browserstack.debug': true
+    },
+    {
+      'os': 'OS X',
+      'os_version': 'Sierra',
+      'browser': 'Safari',
+      browserName: 'Safari',
+      name: 'Safari-local',
+      build: 'webdriver-browserstack',
+      'browserstack.local': true,
+      'browserstack.debug': true
+    }
+    ,
+    //   {
+    //     'browserName': 'iPhone',
+    //     'platform': 'MAC',
+    //     'device': 'iPhone 6'
+    //   }
+    // , {
+    //   'browserName': 'android',
+    //   'platform': 'ANDROID',
+    //   'device': 'Samsung Galaxy S5',
+    //   name: 'S5-local',
+    //   build: 'webdriver-browserstack',
+    //   'browserstack.local': true
+    // }
   ],
 
   logLevel: 'verbose',
