@@ -1,9 +1,11 @@
 .autocomplete-container {
+    /* relative position for at de absolut positionerede forslag får korrekt placering.*/
     position: relative;
     width: 500px;
 }
 
 .autocomplete-container input {
+    /* Både input og forslag får samme bredde som omkringliggende DIV */
     width: 100%;
     box-sizing: border-box;
 }
@@ -17,7 +19,6 @@
     background: #fff;
     box-shadow: -1px 1px 3px rgba(0, 0, 0, .1);
 
-    /* core styles should not be changed */
     position: absolute;
     left: 0;
     right: 0;
@@ -35,6 +36,7 @@
     color: #333;
 }
 
-.dawa-autocomplete-suggestions .dawa-autocomplete-suggestion.dawa-selected, .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:hover {
+.dawa-autocomplete-suggestions .dawa-autocomplete-suggestion.dawa-selected,
+.dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:hover {
     background: #f0f0f0;
 }
