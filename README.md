@@ -1,40 +1,40 @@
 # dawa-autocomplete2
 
-DAWA Autocomplete2 er en JavaScript-komponent, som giver mulighed for at indtaste en dansk adresse
-i ét input-felt. Komponenten anvender [Danmarks Adressers WEB API](https://dawa.aws.dk).
+DAWA Autocomplete2 is a JavaScript-component which makes it possible to enter a danish address in a single input field. 
+The component uses [Danmarks Adressers WEB API](https://dawa.aws.dk).
 
-Autocomplete2 har ingen afhængigheder til andre JavaScript-libraries. Komponenten anvender dog flere
-nyere browser-API'er, så det er nødvendigt at indlæse polyfills i ældre browsere som eksempelvis IE11.
+DAWA Autocomplete2 has no dependencies on other JavaScript-libraries. However, the component utilises
+several newer browser API's, so it is neccessary to load polyfills in older browsers such as IE11.
 
-## Browserunderstøttelse
-Komponenten er testet i IE11, Edge, Chrome, Safari og Firefox. I IE11 anvendes polyfills, vi tester
-med [core-js](https://github.com/zloirock/core-js) samt [GitHubs fetch](https://github.com/github/fetch) polyfill.
+## Browser support
+The component is tested in IE11, Edge, Chrome, Safari and Firefox. In IE11, we test using the
+med [core-js](https://github.com/zloirock/core-js) and [GitHubs fetch](https://github.com/github/fetch) polyfills.
 
-## Anvendelse
-DAWA Autocomplete2 kan installeres fra NPM, eller man kan importere scriptet ved hjælp af <script> tags
-i browseren. 
+## Usage
+DAWA Autocomplete2 may be installed using NPM, or it may be loaded into the browser using a <script>-tag. 
 
-### Anvendelse via script tag
-Først inkluderes polyfills samt autocomplete-scriptet. Vi henter core-js og fetch fra et CDN, og 
-autocomplete-componenten fra https://dawa.aws.dk .
+### Usage via <script> tag
+First, include polyfills and the autocomplete component on the page:
 ```html
     <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>
     <script src="https://dawa.aws.dk/js/autocomplete/dawa-autocomplete2.min.js"></script>
 ```
 
-For at rendere korrekt er der brug for noget styling. Autocomplete-forslagene renderes og positioneres
-udelukkende ved hjælp af CSS. Forslagene indsættes i DOM'en umiddelbart efter input-elementet.
-For at sikre korrekt positionering af input-elementet kan input-feltet placeres i en DIV:
+Some CSS rules must be added to the page in order to render the autocomplete suggestions correctly.
+All styling and positioning of the autocomplete suggestions is handled using CSS.
 
+The autocomplete suggestions is rendered immediately after the input-field. In order to ensure that
+they have the same width, the input field is wrapped in a DIV-element:
 ```html
 <div class="autocomplete-container">
   <input id="dawa-autocomplete-input">
+  <!-- Suggestions will appear here -->
 </div>
 ```
 
-Herved kan vi give input-feltet og autocomplete-forslagene samme bredde. Vi anbefaler følgende CSS regler som udgangspunkt.
-Herefter kan stylingen tilpasses, såden passer ind i sidens design.
+The DIV element is used to ensure that the input field and the suggestions has the same width. Add the following
+CSS rules to the page in order to ensure that the suggestions is rendered correctly:
 
 ```css
 .autocomplete-container {
@@ -79,7 +79,7 @@ Herefter kan stylingen tilpasses, såden passer ind i sidens design.
 }
 ```
 
-Herefter kan autocomplete-komponenten initialiseres:
+The component is initialized using JavaScript:
 ```javascript
 dawaAutocomplete.dawaAutocomplete(document.getElementById('dawa-autocomplete-input'), {
   select: function(selected) {
@@ -89,13 +89,13 @@ dawaAutocomplete.dawaAutocomplete(document.getElementById('dawa-autocomplete-inp
 ```
 
 ### Anvendelse via NPM
-DAWA Autocomplete2 er publiceret i NPM. Anvender du NPM, kan du installere DAWA Autocomplete2 herfra:
+DAWA Autocomplete2 is published in the NPM registry:
 ```bash
 npm install dawa-autocomplete2
 ```
-Polyfills samt CSS-styling håndteres på samme måde som ovenfor.  Herefter er DAWA Autocomplete2 
-klar til brug i din kode:
 
+Polyfills and CSS styling is handled in the same way as above. The component is imported
+and initialized like this:
 ```javascript
 var dawaAutocomplete2 = require('dawa-autocomplete2');
 var inputElm = document.getElementById('dawa-autocomplete-input');
@@ -106,8 +106,8 @@ dawaAutocomplete2.dawaAutocomplete(inputElm, {
 });
 ```
  
-## Licens
+## License
 Copyright © 2017 Styrelsen for Dataforsyning og Effektivisering (SDFE)
 
-Distribueret under [MIT licensen](https://opensource.org/licenses/MIT).
+Distributed under the [MIT license](https://opensource.org/licenses/MIT).
 
