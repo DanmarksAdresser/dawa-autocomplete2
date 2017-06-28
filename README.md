@@ -11,8 +11,8 @@ The component is tested in IE11, Edge, Chrome, Safari and Firefox. In IE11, we t
 med [core-js](https://github.com/zloirock/core-js) and [GitHubs fetch](https://github.com/github/fetch) polyfills.
 
 ## Usage
-DAWA Autocomplete2 may be installed using NPM, or it may be loaded into the browser using a <script>-tag. 
-For a working demo page, please see https://dawa.aws.dk/demo/autocomplete-polyfilled.html
+DAWA Autocomplete2 may be installed using NPM, or it may be loaded into the browser using a `<script>`-tag. 
+For a working demo page, please see https://dawa.aws.dk/demo/autocomplete/demo.html
 
 ### Usage via <script> tag
 First, include polyfills and the autocomplete component on the page:
@@ -25,7 +25,7 @@ First, include polyfills and the autocomplete component on the page:
 Some CSS rules must be added to the page in order to render the autocomplete suggestions correctly.
 All styling and positioning of the autocomplete suggestions is handled using CSS rules.
 
-The autocomplete suggestions is rendered immediately after the input-field. In order to ensure that
+The autocomplete suggestions are rendered immediately after the input-field. In order to ensure that
 they have the same width, the input field is wrapped in a DIV-element:
 ```html
 <div class="autocomplete-container">
@@ -34,8 +34,8 @@ they have the same width, the input field is wrapped in a DIV-element:
 </div>
 ```
 
-The DIV element is used to ensure that the input field and the suggestions has the same width. Add the following
-CSS rules to the page in order to ensure that the suggestions is rendered correctly:
+The DIV element is used to ensure that the input field and the suggestions have the same width. Add the following
+CSS rules to the page in order to ensure that the suggestions are rendered correctly:
 
 ```css
 .autocomplete-container {
@@ -96,9 +96,8 @@ you need to use a tool like [Webpack](https://webpack.github.io/).
 npm install dawa-autocomplete2
 ```
 
-Polyfills and CSS styling is handled in the same way as above. 
-The component is imported
-and initialized like this:
+Polyfills and CSS styling are handled in the same way as above. 
+The component is imported and initialized like this:
 ```javascript
 var dawaAutocomplete2 = require('dawa-autocomplete2');
 var inputElm = document.getElementById('dawa-autocomplete-input');
