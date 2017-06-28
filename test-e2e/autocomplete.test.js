@@ -25,11 +25,11 @@ describe('Autocomplete', function () {
     await browser.waitForExist(vejnavnRentemestervejSelector);
     await browser.click(vejnavnRentemestervejSelector);
     await browser.waitUntil(async () => (await browser.getValue(inputSelector)) === 'Rentemestervej ');
-    const adgadrSuggestionSelector = '.autocomplete-suggestion*=Rentemestervej 4';
+    const adgadrSuggestionSelector = '.autocomplete-suggestion*=Rentemestervej\u00a04';
     await browser.waitForExist(adgadrSuggestionSelector);
     await browser.addValue(inputSelector, '4, 24');
     assert.strictEqual(await browser.getValue(inputSelector), 'Rentemestervej 4, 24');
-    await browser.waitForExist('.dawa-selected=Rentemestervej 4, 2400 København NV');
+    await browser.waitForExist('.dawa-selected=Rentemestervej\u00a04, 2400\u00a0København\u00a0NV');
     // select using ENTER key
     await browser.addValue(inputSelector, '\uE006');
     await browser.waitUntil(async () => (await browser.getValue(inputSelector)) === 'Rentemestervej 4, 2400 København NV');
@@ -44,14 +44,14 @@ describe('Autocomplete', function () {
     // click to set focus on input
     await browser.click(inputSelector);
     await browser.setValue(inputSelector, 'margrethepladsen ');
-    const adgadrSelector = '.dawa-autocomplete-suggestion=Margrethepladsen 4, 8000 Aarhus C';
+    const adgadrSelector = '.dawa-autocomplete-suggestion=Margrethepladsen\u00a04, 8000\u00a0Aarhus\u00a0C';
     await browser.waitForExist(adgadrSelector);
     await browser.click(adgadrSelector);
     await browser.waitUntil(async () => (await browser.getValue(inputSelector)) === 'Margrethepladsen 4, , 8000 Aarhus C');
     const caretPos = await browser.selectorExecute(inputSelector, function(inputElm)  {
       return inputElm[0].selectionStart;
     });
-    assert.strictEqual(caretPos, 'Margrethepladsen 4, '.length);
+    assert.strictEqual(caretPos, 'Margrethepladsen\u00a04, '.length);
   });
 
   it('Kan navigere autocomplete med keyboard', async () => {

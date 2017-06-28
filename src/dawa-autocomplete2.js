@@ -23,11 +23,12 @@ export function dawaAutocomplete(inputElm, options) {
     onTextChange: (newText, newCaretpos) => {
       controller.update(newText, newCaretpos);
     },
-    render: options.render
+    render: options.render,
+    multiline: options.multiline || false
   });
   controller.setRenderCallback(suggestions => ui.setSuggestions(suggestions));
   controller.setSelectCallback(selected => {
-    ui.selectAndClose(selected.forslagstekst);
+    ui.selectAndClose(selected.tekst);
     options.select(selected);
   });
 }

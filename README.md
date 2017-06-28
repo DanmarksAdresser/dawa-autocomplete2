@@ -39,24 +39,25 @@ CSS rules to the page in order to ensure that the suggestions are rendered corre
 
 ```css
 .autocomplete-container {
+    /* relative position for at de absolut positionerede forslag får korrekt placering.*/
     position: relative;
-    width: 500px;
+    width: 100%;
+    max-width: 30em;
 }
 
 .autocomplete-container input {
+    /* Både input og forslag får samme bredde som omkringliggende DIV */
     width: 100%;
     box-sizing: border-box;
 }
 
 .dawa-autocomplete-suggestions {
-    margin: 0;
+    margin: 0.3em 0 0 0;
     padding: 0;
     text-align: left;
-    border: 1px solid #ccc;
-    border-top: 0;
-    background: #fff;
-    box-shadow: -1px 1px 3px rgba(0, 0, 0, .1);
-
+    border-radius: 0.3125em;
+    background: #fcfcfc;
+    box-shadow: 0 0.0625em 0.15625em rgba(0,0,0,.15);
     position: absolute;
     left: 0;
     right: 0;
@@ -69,12 +70,24 @@ CSS rules to the page in order to ensure that the suggestions are rendered corre
     margin: 0;
     list-style: none;
     cursor: pointer;
-    padding: 0 .6em;
-    line-height: 1.5em;
+    padding: 0.4em 0.6em;
     color: #333;
+    border: 0.0625em solid #ddd;
+    border-bottom-width: 0;
 }
 
-.dawa-autocomplete-suggestions .dawa-autocomplete-suggestion.dawa-selected, 
+.dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:first-child {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:last-child {
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    border-bottom-width: 0.0625em;
+}
+
+.dawa-autocomplete-suggestions .dawa-autocomplete-suggestion.dawa-selected,
 .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:hover {
     background: #f0f0f0;
 }
@@ -111,13 +124,14 @@ dawaAutocomplete2.dawaAutocomplete(inputElm, {
 ### Options
 The following options are supported:
 
- - `select`: This function is called whenever the user selects an address
- - `baseUrl`: URL to DAWA, defaults to `https://dawa.aws.dk`
- - `adgangsadresserOnly`: The user enters an access address, not a complete address with floor/suite. Defaults to `false`
- - `fuzzy`: Whether fuzzy searching is enabled, defaults to `true`,
- - `params`: A JavaScript object containing any additional parameters to send to DAWA, e.g. `{kommunekode: "101"}`
- - `stormodtagerpostnumre`: Whether "stormodtagerpostnumre" will be displayed in suggestions. Defaults to `true`
+ - `select`: This function is called whenever the user selects an address.
+ - `baseUrl`: URL to DAWA, defaults to `https://dawa.aws.dk`.
+ - `adgangsadresserOnly`: The user enters an access address, not a complete address with floor/suite. Defaults to `false`.
+ - `fuzzy`: Whether fuzzy searching is enabled, defaults to `true`.
+ - `params`: A JavaScript object containing any additional parameters to send to DAWA, e.g. `{kommunekode: "101"}`.
+ - `stormodtagerpostnumre`: Whether "stormodtagerpostnumre" will be displayed in suggestions. Defaults to `true`.
  - `minLength`: Number of characters which must be entered before any suggestions is displayed. Defaults to `2`.
+ - `multiline`: Display address suggestions on multiple lines. Default `false`.
 
 ## Get help
 There is a [forum](https://digitaliser.dk/group/334445/forum) available on Digitaliser.dk. 

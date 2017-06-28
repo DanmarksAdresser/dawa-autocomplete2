@@ -14,7 +14,7 @@ attributes.caretpos = (element, name, value) => {
 
 attributes.value = applyProp;
 
-const renderIncrementalDOM = (data, onSelect) => {
+const renderIncrementalDOM = (data, onSelect, multiline) => {
   if (data.suggestions.length > 0 && data.focused) {
     elementOpen('ul', '', ['class', 'dawa-autocomplete-suggestions', 'role', 'listbox']);
     for (let i = 0; i < data.suggestions.length; ++i) {
@@ -29,7 +29,18 @@ const renderIncrementalDOM = (data, onSelect) => {
           onSelect(i);
           e.preventDefault();
         });
-      text(suggestion.forslagstekst);
+      let rows = suggestion.forslagstekst.split('\n');
+      rows = rows.map(row => row.replace(/ /g, '\u00a0'))
+      if(multiline) {
+        text(rows[0]);
+        for(let i = 1; i < rows.length; ++i) {
+          elementVoid('br');
+          text(rows[i]);
+        }
+      }
+      else {
+        text(rows.join(', '));
+      }
       elementClose('li');
     }
     elementClose('ul');
@@ -38,9 +49,9 @@ const renderIncrementalDOM = (data, onSelect) => {
 
 
 
-const defaultRender = (containerElm, data, onSelect) => {
+const defaultRender = (containerElm, data, onSelect, multiline) => {
   patch(containerElm, function () {
-    renderIncrementalDOM(data, onSelect);
+    renderIncrementalDOM(data, onSelect, multiline);
   });
 };
 
@@ -150,7 +161,7 @@ export const autocompleteUi = (inputElm, options) => {
           inputElm.setSelectionRange(data.caretpos, data.caretpos);
         }
         updateInput = false;
-        render(suggestionContainerElm, data, i => selectSuggestion(i));
+        render(suggestionContainerElm, data, i => selectSuggestion(i), options.multiline);
       });
     }
   };

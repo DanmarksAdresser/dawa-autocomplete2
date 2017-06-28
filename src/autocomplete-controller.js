@@ -23,7 +23,7 @@ const defaultOptions = {
 };
 
 // Beregner adressetekst hvor stormodtagerpostnummer anvendes.
-const stormodtagerAdresseTekst = data => {
+const formatAdresseMultiline = data => {
   let adresse = data.vejnavn;
   if (data.husnr) {
     adresse += ' ' + data.husnr;
@@ -37,12 +37,19 @@ const stormodtagerAdresseTekst = data => {
   if (data['dør']) {
     adresse += ' ' + data['dør'];
   }
-  adresse += ', ';
   if (data.supplerendebynavn) {
-    adresse += data.supplerendebynavn + ', ';
+    adresse += '\n' + data.supplerendebynavn;
   }
-  adresse += data.stormodtagerpostnr + ' ' + data.stormodtagerpostnrnavn;
+  adresse += '\n' + data.postnr + ' ' + data.postnrnavn;
   return adresse;
+};
+
+const formatAdresse = (data, stormodtager) => {
+  if(stormodtager) {
+    data = Object.assign({}, data, {postnr: data.stormodtagerpostnr, postnrnavn: data.stormodtagerpostnrnavn});
+  }
+  let text = formatAdresseMultiline(data);
+  return text;
 };
 
 const processResultsStormodtagere = (q, result) => {
@@ -50,8 +57,9 @@ const processResultsStormodtagere = (q, result) => {
     if ((row.type === 'adgangsadresse' || row.type === 'adresse') && row.data.stormodtagerpostnr) {
       // Vi har modtaget et stormodtagerpostnr. Her vil vi muligvis gerne vise stormodtagerpostnummeret
       const stormodtagerEntry = Object.assign({}, row);
-      stormodtagerEntry.tekst = stormodtagerAdresseTekst(row.data);
-      stormodtagerEntry.forslagstekst = stormodtagerEntry.tekst;
+      stormodtagerEntry.tekst = formatAdresse(row.data, true);
+      sotrmodtagerEntry.caretpos = stormodtagerEntry.tekst.length;
+      stormodtagerEntry.forslagstekst = formatAdresse(row.data, true);
 
       let rows = [];
       // Omvendt, hvis brugeren har indtastet den almindelige adresse eksakt, så er der ingen
@@ -80,12 +88,16 @@ const processResultsStormodtagere = (q, result) => {
 }
 
 const processResults = (q, result, stormodtagereEnabled) => {
+  result = result.map(row => {
+    if(row.type === 'adgangsadresse' || row.type === 'adresse') {
+      row.forslagstekst = formatAdresse(row.data, false);
+    }
+    return row;
+  });
   if (stormodtagereEnabled) {
     return processResultsStormodtagere(q, result);
   }
-  else {
-    return result;
-  }
+  return result;
 };
 
 export class AutocompleteController {
