@@ -1,6 +1,6 @@
 {
   "name": "dawa-autocomplete2",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "DAWA Autocomplete komponent",
   "main": "dist/dawa-autocomplete2.js",
   "module": "dist/dawa-autocomplete2.es.js",
