@@ -1,10 +1,8 @@
 "use strict";
 
-const assert = require('chai').assert;
+/* global browser */
 
-const sleep = (ms) => new Promise((resolve) => {
-  setTimeout(() => resolve(new Error('Timeout')), ms);
-});
+const assert = require('chai').assert;
 
 describe('Autocomplete', function () {
   it('can load the demo page', async () => {

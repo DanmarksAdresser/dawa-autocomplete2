@@ -5,7 +5,7 @@ import {go, Channel} from 'ts-csp';
 import {assert} from 'chai';
 import {AutocompleteController} from '../src/autocomplete-controller';
 
-const sleep = (ms) => new Promise((resolve, reject) => {
+const sleep = (ms) => new Promise((resolve) => {
   setTimeout(() => resolve(new Error('Timeout')), ms);
 });
 
@@ -32,7 +32,6 @@ const fakeFetchImpl = responses => {
         });
       }
     }
-    console.dir(params);
     throw new Error('fakeFetch: No response for request ' + JSON.stringify(params));
   };
 
@@ -74,7 +73,7 @@ describe('Autocomplete controller', () => {
     assert.strictEqual(fetchImpl.pending().length, 0);
   }));
 
-  it('Ved valg af vejnavn søges i adgangsadresser', () => go(function*() {
+  it('Ved valg af vejnavn søges i adgangsadresser', () =>  {
     const fetchImpl = fakeFetchImpl([
       [{
         q: 'Margrethepladsen ',
@@ -95,9 +94,9 @@ describe('Autocomplete controller', () => {
       }
     };
     controller.select(vejnavn);
-  }));
+  });
 
-  it('Ved valg af adgangsadresse søges i adresser', () => go(function*() {
+  it('Ved valg af adgangsadresse søges i adresser', () => {
     const adgangsadresse = {
       "type": "adgangsadresse",
       "tekst": "Margrethepladsen 4, , 8000 Aarhus C",
@@ -126,8 +125,19 @@ describe('Autocomplete controller', () => {
       [expectedRequest, []]]);
     const controller = new AutocompleteController({fetchImpl});
     controller.select(adgangsadresse);
+  });
+
+  it('Ved søgning på Girostrøget 1 vises adressen både med og uden stormodtagerpostnummer', () => go(function*() {
+    const controller = new AutocompleteController({});
+    const renderings = new Channel();
+    controller.setRenderCallback((suggestions => {
+      renderings.putSync(suggestions);
+    }));
+    controller.update('girostrøget 1', 'girostrøget 1'.length);
+    const suggestions = yield renderings.take();
+    assert(suggestions.length >= 2);
+    assert.strictEqual(suggestions[0].forslagstekst, 'Girostrøget 1\nHøje Taastr.\n2630 Taastrup');
+    assert.strictEqual(suggestions[1].forslagstekst, 'Girostrøget 1\nHøje Taastr.\n0800 Høje Taastrup');
   }));
-
-
 
 });

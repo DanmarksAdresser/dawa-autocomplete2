@@ -1,4 +1,4 @@
-const  globals = require( 'rollup-plugin-node-globals');
+const globals = require( 'rollup-plugin-node-globals');
 const builtins = require('rollup-plugin-node-builtins');
 
 const commonjs = require( 'rollup-plugin-commonjs');

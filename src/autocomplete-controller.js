@@ -9,7 +9,8 @@ const defaultOptions = {
   params: {},
   minLength: 2,
   debounce: 200,
-  renderCallback: suggestions => {
+  renderCallback: () => {
+    /*eslint no-console: 0*/
     console.error('No renderCallback supplied');
   },
   type: 'adresse',
@@ -58,7 +59,7 @@ const processResultsStormodtagere = (q, result) => {
       // Vi har modtaget et stormodtagerpostnr. Her vil vi muligvis gerne vise stormodtagerpostnummeret
       const stormodtagerEntry = Object.assign({}, row);
       stormodtagerEntry.tekst = formatAdresse(row.data, true);
-      sotrmodtagerEntry.caretpos = stormodtagerEntry.tekst.length;
+      stormodtagerEntry.caretpos = stormodtagerEntry.tekst.length;
       stormodtagerEntry.forslagstekst = formatAdresse(row.data, true);
 
       let rows = [];
@@ -128,7 +129,7 @@ export class AutocompleteController {
 
     return this.options.fetchImpl(this.options.baseUrl, params)
       .then(result => processResults(text, result, this.options.stormodtagerpostnumre));
-  };
+  }
 
   _scheduleRequest(request) {
     if (this.state.currentRequest !== null) {

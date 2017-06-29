@@ -1,5 +1,3 @@
-const browserstack = require('browserstack-local');
-
 exports.config = {
   updateJob: false,
   specs: [

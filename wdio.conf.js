@@ -1,5 +1,5 @@
 const browserstack = require('browserstack-local');
-
+/*eslint no-console: 0*/
 exports.config = {
   user: process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USERNAME',
   key: process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
@@ -88,7 +88,7 @@ exports.config = {
   },
   sync: false,
 
-  onPrepare: function (config, capabilities) {
+  onPrepare: function () {
     console.log("Connecting local");
     return new Promise(function (resolve, reject) {
       exports.bs_local = new browserstack.Local();
@@ -101,7 +101,7 @@ exports.config = {
     });
   },
   // Code to stop browserstack local after end of test
-  onComplete: function (capabilties, specs) {
+  onComplete: function () {
     exports.bs_local.stop(function () {
     });
   }
