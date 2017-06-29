@@ -6,6 +6,9 @@ The component uses [Danmarks Adressers WEB API](https://dawa.aws.dk).
 DAWA Autocomplete2 has no dependencies on other JavaScript-libraries. However, the component utilises
 several newer browser API's, so it is neccessary to load polyfills in older browsers such as IE11.
 
+DAWA Autocomplete2 is currently *alpha software*. This means the software may change in a backwards-incompatible way
+without notice.
+
 ## Browser support
 The component is tested in IE11, Edge, Chrome, Safari and Firefox. In IE11, we test using the
 med [core-js](https://github.com/zloirock/core-js) and [GitHubs fetch](https://github.com/github/fetch) polyfills.
@@ -21,6 +24,8 @@ First, include polyfills and the autocomplete component on the page:
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>
     <script src="https://dawa.aws.dk/js/autocomplete/dawa-autocomplete2.min.js"></script>
 ```
+Please notice that https://dawa.aws.dk regularly updates the hosted version of the file
+to the most recent.
 
 Some CSS rules must be added to the page in order to render the autocomplete suggestions correctly.
 All styling and positioning of the autocomplete suggestions is handled using CSS rules.

@@ -23,7 +23,8 @@
     "test": "run-s karma test-e2e",
     "dev": "run-p -r serve watch",
     "copy-demo": "ncp demo-polyfilled.html dist/demo-polyfilled.html",
-    "prepare": "run-s clean rollup rollup-minified copy-demo"
+    "copy-css": "ncp css/dawa-autocomplete2.css dist/dawa-autocomplete2.css",
+    "prepare": "run-s clean rollup rollup-minified copy-demo copy-css"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
