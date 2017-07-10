@@ -10,8 +10,7 @@ DAWA Autocomplete2 is currently *alpha software*. This means the software may ch
 without notice.
 
 ## Browser support
-The component is tested in IE11, Edge, Chrome, Safari and Firefox. In IE11, we test using the
-med [core-js](https://github.com/zloirock/core-js) and [GitHubs fetch](https://github.com/github/fetch) polyfills.
+The component is tested in IE11, Edge, Chrome, Safari and Firefox. In IE11, we test using the [core-js](https://github.com/zloirock/core-js) and [GitHub fetch](https://github.com/github/fetch) polyfills.
 
 ## Usage
 DAWA Autocomplete2 may be installed using NPM, or it may be loaded into the browser using a `<script>`-tag. 
@@ -25,7 +24,7 @@ First, include polyfills and the autocomplete component on the page:
     <script src="https://dawa.aws.dk/js/autocomplete/dawa-autocomplete2.min.js"></script>
 ```
 Please notice that https://dawa.aws.dk regularly updates the hosted version of the file
-to the most recent.
+to the most recent. You should 
 
 Some CSS rules must be added to the page in order to render the autocomplete suggestions correctly.
 All styling and positioning of the autocomplete suggestions is handled using CSS rules.
@@ -137,6 +136,13 @@ The following options are supported:
  - `stormodtagerpostnumre`: Whether "stormodtagerpostnumre" will be displayed in suggestions. Defaults to `true`.
  - `minLength`: Number of characters which must be entered before any suggestions is displayed. Defaults to `2`.
  - `multiline`: Display address suggestions on multiple lines. Default `false`.
+
+### Cleanup
+Calling `destroy` removes the autocomplete component and any event listeners from the DOM:
+```javascript
+    var autocomplete =  dawaAutocomplete(inputElm, {});
+    autocomplete.destroy();
+```
 
 ## Get help
 There is a [forum](https://digitaliser.dk/group/334445/forum) available on Digitaliser.dk. 

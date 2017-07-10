@@ -31,5 +31,9 @@ export function dawaAutocomplete(inputElm, options) {
     ui.selectAndClose(selected.tekst);
     options.select(selected);
   });
+
+  return {
+    destroy: () => ui.destroy()
+  };
 }
 

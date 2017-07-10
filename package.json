@@ -21,7 +21,7 @@
     "wdio-local": "wdio wdio-dev.conf.js",
     "karma": "karma start --single-run",
     "test-e2e": "run-p -r serve wdio-browserstack",
-    "test": "run-s eslintkarma test-e2e",
+    "test": "run-s eslint karma test-e2e",
     "dev": "run-p -r serve watch",
     "copy-demo": "ncp demo-polyfilled.html dist/demo-polyfilled.html",
     "copy-css": "ncp css/dawa-autocomplete2.css dist/dawa-autocomplete2.css",
