@@ -1,7 +1,6 @@
 "use strict";
 import "regenerator-runtime/runtime";
 
-import {assert} from 'chai';
 import {dawaAutocomplete} from '../src/dawa-autocomplete2';
 
 
