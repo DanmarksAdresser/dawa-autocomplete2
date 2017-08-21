@@ -16,7 +16,7 @@ The component is tested in IE11, Edge, Chrome, Safari and Firefox. In IE11, we t
 DAWA Autocomplete2 may be installed using NPM, or it may be loaded into the browser using a `<script>`-tag. 
 For a working demo page, please see https://dawa.aws.dk/demo/autocomplete/demo.html
 
-### Usage via <script> tag
+### Usage via &lt;script&gt; tag
 First, include polyfills and the autocomplete component on the page:
 ```html
     <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.min.js"></script>
@@ -24,7 +24,8 @@ First, include polyfills and the autocomplete component on the page:
     <script src="https://dawa.aws.dk/js/autocomplete/dawa-autocomplete2.min.js"></script>
 ```
 Please notice that https://dawa.aws.dk regularly updates the hosted version of the file
-to the most recent. You should 
+to the most recent. We do *not* guarantee that this file is always backwards compatible, so
+we strongly recommend that you serve a copy of the file from your own server.
 
 Some CSS rules must be added to the page in order to render the autocomplete suggestions correctly.
 All styling and positioning of the autocomplete suggestions is handled using CSS rules.
@@ -132,7 +133,7 @@ The following options are supported:
  - `baseUrl`: URL to DAWA, defaults to `https://dawa.aws.dk`.
  - `adgangsadresserOnly`: The user enters an access address, not a complete address with floor/suite. Defaults to `false`.
  - `fuzzy`: Whether fuzzy searching is enabled, defaults to `true`.
- - `params`: A JavaScript object containing any additional parameters to send to DAWA, e.g. `{kommunekode: "101"}`.
+ - `params`: A JavaScript object containing any additional parameters to send to DAWA, e.g. `{kommunekode: "101"}`. Any parameter supported by the API can be specified. Please see check the [API docs](https://dawa.aws.dk/autocompletedok) for further information:
  - `stormodtagerpostnumre`: Whether "stormodtagerpostnumre" will be displayed in suggestions. Defaults to `true`.
  - `minLength`: Number of characters which must be entered before any suggestions is displayed. Defaults to `2`.
  - `multiline`: Display address suggestions on multiple lines. Default `false`.
