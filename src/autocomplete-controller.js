@@ -5,10 +5,12 @@ const formatParams = params => {
   }).join('&');
 };
 
+const delay = ms => new Promise((resolve, reject) => setTimeout(resolve, ms));
+
 const defaultOptions = {
   params: {},
   minLength: 2,
-  debounce: 200,
+  retryDelay: 500,
   renderCallback: () => {
     /*eslint no-console: 0*/
     console.error('No renderCallback supplied');
@@ -115,10 +117,12 @@ export class AutocompleteController {
   }
   _handleFailedRequest(request, error) {
     console.error('DAWA request failed', error);
-    if(!this.state.pendingRequest) {
-      this._scheduleRequest(request);
-    }
-    this._requestCompleted();
+    return delay(this.options.retryDelay).then(() => {
+      if(!this.state.pendingRequest) {
+        this._scheduleRequest(request);
+      }
+      this._requestCompleted();
+    });
   }
 
   _handleResponse(request, result) {
