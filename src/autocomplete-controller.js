@@ -13,93 +13,21 @@ const defaultOptions = {
     /*eslint no-console: 0*/
     console.error('No renderCallback supplied');
   },
+  initialRenderCallback: () => {
+    /*eslint no-console: 0*/
+    console.error('No initialRenderCallback supplied');
+  },
   type: 'adresse',
   baseUrl: 'https://dawa.aws.dk',
   adgangsadresserOnly: false,
   stormodtagerpostnumre: true,
+  supplerendebynavn: true,
   fuzzy: true,
-  fetchImpl: (baseUrl, params) => fetch(`${baseUrl}/autocomplete?${formatParams(params)}`, {
+  fetchImpl: (url, params) => fetch(`${url}?${formatParams(params)}`, {
     mode: 'cors'
   }).then(result => result.json())
 };
 
-// Beregner adressetekst hvor stormodtagerpostnummer anvendes.
-const formatAdresseMultiline = data => {
-  let adresse = data.vejnavn;
-  if (data.husnr) {
-    adresse += ' ' + data.husnr;
-  }
-  if (data.etage || data['dør']) {
-    adresse += ',';
-  }
-  if (data.etage) {
-    adresse += ' ' + data.etage + '.';
-  }
-  if (data['dør']) {
-    adresse += ' ' + data['dør'];
-  }
-  if (data.supplerendebynavn) {
-    adresse += '\n' + data.supplerendebynavn;
-  }
-  adresse += '\n' + data.postnr + ' ' + data.postnrnavn;
-  return adresse;
-};
-
-const formatAdresse = (data, stormodtager) => {
-  if(stormodtager) {
-    data = Object.assign({}, data, {postnr: data.stormodtagerpostnr, postnrnavn: data.stormodtagerpostnrnavn});
-  }
-  let text = formatAdresseMultiline(data);
-  return text;
-};
-
-const processResultsStormodtagere = (q, result) => {
-  return result.reduce(function (memo, row) {
-    if ((row.type === 'adgangsadresse' || row.type === 'adresse') && row.data.stormodtagerpostnr) {
-      // Vi har modtaget et stormodtagerpostnr. Her vil vi muligvis gerne vise stormodtagerpostnummeret
-      const stormodtagerEntry = Object.assign({}, row);
-      stormodtagerEntry.tekst = formatAdresse(row.data, true);
-      stormodtagerEntry.caretpos = stormodtagerEntry.tekst.length;
-      stormodtagerEntry.forslagstekst = formatAdresse(row.data, true);
-
-      let rows = [];
-      // Omvendt, hvis brugeren har indtastet den almindelige adresse eksakt, så er der ingen
-      // grund til at vise stormodtagerudgaven
-      if (q !== stormodtagerEntry.tekst) {
-        rows.push(row);
-      }
-
-      // Hvis brugeren har indtastet stormodtagerudgaven af adressen eksakt, så viser vi
-      // ikke den almindelige udgave
-      if (q !== row.tekst) {
-        rows.push(stormodtagerEntry);
-      }
-
-      // brugeren har indtastet stormodtagerpostnummeret, såvi viser stormodtager udgaven først.
-      if (rows.length > 1 && q.indexOf(row.data.stormodtagerpostnr) !== -1) {
-        rows = [rows[1], rows[0]];
-      }
-      memo = memo.concat(rows);
-    }
-    else {
-      memo.push(row);
-    }
-    return memo;
-  }, []);
-}
-
-const processResults = (q, result, stormodtagereEnabled) => {
-  result = result.map(row => {
-    if(row.type === 'adgangsadresse' || row.type === 'adresse') {
-      row.forslagstekst = formatAdresse(row.data, false);
-    }
-    return row;
-  });
-  if (stormodtagereEnabled) {
-    return processResultsStormodtagere(q, result);
-  }
-  return result;
-};
 
 export class AutocompleteController {
   constructor(options) {
@@ -111,11 +39,14 @@ export class AutocompleteController {
     }
   }
 
-  _getAutocompleteResponse(text, caretpos, skipVejnavn, adgangsadresseid) {
+  _getAutocompleteResponse(text, caretpos, skipVejnavn, adgangsadresseid, supplerendebynavn, stormodtagerpostnumre) {
     const params = Object.assign({}, this.options.params, {
       q: text,
       type: this.options.type,
-      caretpos: caretpos
+      caretpos: caretpos,
+      supplerendebynavn,
+      stormodtagerpostnumre,
+      multilinje: true
     });
     if (this.options.fuzzy) {
       params.fuzzy = '';
@@ -127,8 +58,7 @@ export class AutocompleteController {
       params.startfra = 'adgangsadresse';
     }
 
-    return this.options.fetchImpl(this.options.baseUrl, params)
-      .then(result => processResults(text, result, this.options.stormodtagerpostnumre));
+    return this.options.fetchImpl(`${this.options.baseUrl}/autocomplete`, params);
   }
 
   _scheduleRequest(request) {
@@ -140,6 +70,7 @@ export class AutocompleteController {
       this._executeRequest();
     }
   }
+
 
   _executeRequest() {
     const request = this.state.currentRequest;
@@ -164,12 +95,30 @@ export class AutocompleteController {
       text = request.text;
       caretpos = request.caretpos;
     }
-    if (request.selected || request.text.length >= this.options.minLength) {
-      this._getAutocompleteResponse(text, caretpos, skipVejnavn, adgangsadresseid).then(result => this._handleResponse(request, result));
+    if (request.selectedId) {
+      const params = {id: request.selectedId};
+      const path = `/${this.options.type === 'adgangsadresse' ? 'adgangsadresser' : 'adresser'}/autocomplete`;
+      return this.options.fetchImpl(`${this.options.baseUrl}/${path}`, params)
+        .then(
+          result => this._handleResponse(request, result),
+          error => this._handleFailedRequest(request, error));
+    }
+    else if (request.selected || request.text.length >= this.options.minLength) {
+      this._getAutocompleteResponse(text, caretpos, skipVejnavn, adgangsadresseid, this.options.supplerendebynavn, this.options.stormodtagerpostnumre)
+        .then(
+          result => this._handleResponse(request, result),
+          error => this._handleFailedRequest(request, error ));
     }
     else {
       this._handleResponse(request, []);
     }
+  }
+  _handleFailedRequest(request, error) {
+    console.error('DAWA request failed', error);
+    if(!this.state.pendingRequest) {
+      this._scheduleRequest(request);
+    }
+    this._requestCompleted();
   }
 
   _handleResponse(request, result) {
@@ -189,6 +138,11 @@ export class AutocompleteController {
       }
       else if (this.options.renderCallback) {
         this.options.renderCallback(result);
+      }
+    }
+    else if(request.selectedId) {
+      if(result.length === 1) {
+        this.options.initialRenderCallback(result[0].tekst);
       }
     }
     else {
@@ -212,6 +166,10 @@ export class AutocompleteController {
     this.options.renderCallback = renderCallback;
   }
 
+  setInitialRenderCallback(renderCallback) {
+    this.options.initialRenderCallback = renderCallback;
+  }
+
   setSelectCallback(selectCallback) {
     this.options.selectCallback = selectCallback;
   }
@@ -227,6 +185,12 @@ export class AutocompleteController {
   select(item) {
     const request = {
       selected: item
+    };
+    this._scheduleRequest(request);
+  }
+  selectInitial(id) {
+    const request = {
+      selectedId: id
     };
     this._scheduleRequest(request);
   }

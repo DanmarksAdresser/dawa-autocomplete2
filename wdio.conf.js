@@ -17,30 +17,30 @@ exports.config = {
       'browserstack.local': true,
       'browserstack.debug': true
     },
-    {
-      'os': 'Windows',
-      'os_version': '7',
-      'browser': 'IE',
-      browserName: 'IE',
-      'browser_version': '11.0',
-      'resolution': '1024x768',
-      name: 'IE11-local',
-      build: 'webdriver-browserstack',
-      'browserstack.local': true,
-      'browserstack.debug': true
-
-    }
-    , {
-      'os': 'Windows',
-      'os_version': '10',
-      'browser': 'Edge',
-      browserName: 'Edge',
-      'resolution': '1024x768',
-      name: 'Edge-local',
-      build: 'webdriver-browserstack',
-      'browserstack.local': true,
-      'browserstack.debug': true
-    },
+    // {
+    //   'os': 'Windows',
+    //   'os_version': '7',
+    //   'browser': 'IE',
+    //   browserName: 'IE',
+    //   'browser_version': '11.0',
+    //   'resolution': '1024x768',
+    //   name: 'IE11-local',
+    //   build: 'webdriver-browserstack',
+    //   'browserstack.local': true,
+    //   'browserstack.debug': true
+    //
+    // }
+    // , {
+    //   'os': 'Windows',
+    //   'os_version': '10',
+    //   'browser': 'Edge',
+    //   browserName: 'Edge',
+    //   'resolution': '1024x768',
+    //   name: 'Edge-local',
+    //   build: 'webdriver-browserstack',
+    //   'browserstack.local': true,
+    //   'browserstack.debug': true
+    // },
     {
       'os': 'OS X',
       'os_version': 'Sierra',

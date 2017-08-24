@@ -5,6 +5,8 @@ import {go, Channel} from 'ts-csp';
 import {assert} from 'chai';
 import {AutocompleteController} from '../src/autocomplete-controller';
 
+// const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://dawa.aws.dk';
 const sleep = (ms) => new Promise((resolve) => {
   setTimeout(() => resolve(new Error('Timeout')), ms);
 });
@@ -17,7 +19,7 @@ const deepEqual = (a, b) => {
   catch (e) {
     return false;
   }
-}
+};
 
 const fakeFetchImpl = responses => {
   const pending = [];
@@ -42,9 +44,11 @@ const fakeFetchImpl = responses => {
   return fetchImpl;
 };
 
+const createController = options => new AutocompleteController(Object.assign({}, {baseUrl: BASE_URL}, options))
+
 describe('Autocomplete controller', () => {
   it('Basic autocomplete flow', () => go(function*() {
-    const controller = new AutocompleteController({});
+    const controller = createController({});
     const renderings = new Channel();
     controller.setRenderCallback((suggestions => {
       renderings.putSync(suggestions);
@@ -56,11 +60,11 @@ describe('Autocomplete controller', () => {
     assert.strictEqual(vejnavnSuggestions[1].tekst, 'Margrethepladsen ');
   }));
 
-  it('Højt 1 parallelt request', () => go(function*() {
+  it('Højst 1 parallelt request', () => go(function*() {
     const fetchImpl = fakeFetchImpl([
-      [{q: 'marg', caretpos: 'marg'.length, type: 'adresse', fuzzy: ''}, []],
-      [{q: 'margre', caretpos: 'margre'.length, type: 'adresse', fuzzy: ''}, []]]);
-    const controller = new AutocompleteController({fetchImpl});
+      [{q: 'marg', caretpos: 'marg'.length, type: 'adresse', fuzzy: '', supplerendebynavn: true, stormodtagerpostnumre: true, multilinje: true}, []],
+      [{q: 'margre', caretpos: 'margre'.length, type: 'adresse', fuzzy: '', supplerendebynavn: true, stormodtagerpostnumre: true, multilinje: true}, []]]);
+    const controller = createController({fetchImpl});
     controller.update('marg', 'marg'.length);
     controller.update('margr', 'margr'.length);
     controller.update('margre', 'margre'.length);
@@ -80,9 +84,12 @@ describe('Autocomplete controller', () => {
         caretpos: 'Margrethepladsen '.length,
         type: 'adresse',
         fuzzy: '',
-        startfra: 'adgangsadresse'
+        startfra: 'adgangsadresse',
+        supplerendebynavn: true,
+        stormodtagerpostnumre: true,
+        multilinje: true
       }, []]]);
-    const controller = new AutocompleteController({fetchImpl});
+    const controller = createController({fetchImpl});
     const vejnavn = {
       "type": "vejnavn",
       "tekst": "Margrethepladsen ",
@@ -119,7 +126,10 @@ describe('Autocomplete controller', () => {
       caretpos: adgangsadresse.caretpos,
       type: 'adresse',
       fuzzy: '',
-      adgangsadresseid:  adgangsadresse.data.id
+      adgangsadresseid:  adgangsadresse.data.id,
+      supplerendebynavn: true,
+      stormodtagerpostnumre: true,
+      multilinje: true
     };
     const fetchImpl = fakeFetchImpl([
       [expectedRequest, []]]);
@@ -128,7 +138,9 @@ describe('Autocomplete controller', () => {
   });
 
   it('Ved søgning på Girostrøget 1 vises adressen både med og uden stormodtagerpostnummer', () => go(function*() {
-    const controller = new AutocompleteController({});
+    const controller = createController({
+      stormodtagerpostnumre: true
+    });
     const renderings = new Channel();
     controller.setRenderCallback((suggestions => {
       renderings.putSync(suggestions);
@@ -139,5 +151,32 @@ describe('Autocomplete controller', () => {
     assert.strictEqual(suggestions[0].forslagstekst, 'Girostrøget 1\nHøje Taastr.\n2630 Taastrup');
     assert.strictEqual(suggestions[1].forslagstekst, 'Girostrøget 1\nHøje Taastr.\n0800 Høje Taastrup');
   }));
+
+  it('Ved deaktivering af supplerende bynavne returneres ikke supplerende bynavne', () => go(function*() {
+    const controller = createController({
+      supplerendebynavn: false
+    });
+    const renderings = new Channel();
+    controller.setRenderCallback((suggestions => {
+      renderings.putSync(suggestions);
+    }));
+    controller.update('gudhjemvej 1', 'gudhjemvej 1'.length);
+    const suggestions = yield renderings.take();
+    assert(suggestions.length >= 1);
+    assert.strictEqual(suggestions[0].forslagstekst, 'Gudhjemvej 1\n3760 Gudhjem');
+  }));
+
+  it('Kan populeres initielt ved angivelse af adresseId', () => go(function*() {
+    const controller = createController({
+    });
+    const renderings = new Channel();
+    controller.setInitialRenderCallback((initialText => {
+      renderings.putSync(initialText);
+    }));
+    controller.selectInitial('f5a68d45-935b-48d6-8d11-6363327ca1ae');
+    const initialText = yield renderings.take();
+    assert.strictEqual(initialText, 'Rentemestervej 4, 2400 København NV');
+  }));
+
 
 });
