@@ -137,6 +137,7 @@ The following options are supported:
  - `stormodtagerpostnumre`: Whether "stormodtagerpostnumre" will be displayed in suggestions. Defaults to `true`.
  - `minLength`: Number of characters which must be entered before any suggestions is displayed. Defaults to `2`.
  - `multiline`: Display address suggestions on multiple lines. Default `false`.
+ - `addressId`: Initialize the input field with the address specified by the given UUID. If the address does not exist, the input field is left empty.
 
 ### Cleanup
 Calling `destroy` removes the autocomplete component and any event listeners from the DOM:
