@@ -5,7 +5,7 @@ const formatParams = params => {
   }).join('&');
 };
 
-const delay = ms => new Promise((resolve, reject) => setTimeout(resolve, ms));
+const delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
 
 const defaultOptions = {
   params: {},
@@ -38,7 +38,8 @@ export class AutocompleteController {
     this.state = {
       currentRequest: null,
       pendingRequest: null
-    }
+    };
+    this.selected = null;
   }
 
   _getAutocompleteResponse(text, caretpos, skipVejnavn, adgangsadresseid, supplerendebynavn, stormodtagerpostnumre) {
@@ -89,6 +90,7 @@ export class AutocompleteController {
       }
       else {
         this.options.selectCallback(item);
+        this.selected = item;
         this._requestCompleted();
         return;
       }
@@ -98,9 +100,11 @@ export class AutocompleteController {
       caretpos = request.caretpos;
     }
     if (request.selectedId) {
-      const params = {id: request.selectedId};
-      const path = `/${this.options.type === 'adgangsadresse' ? 'adgangsadresser' : 'adresser'}/autocomplete`;
-      return this.options.fetchImpl(`${this.options.baseUrl}/${path}`, params)
+      const params = {
+        id: request.selectedId,
+        type: this.options.type
+      };
+      return this.options.fetchImpl(`${this.options.baseUrl}/autocomplete`, params)
         .then(
           result => this._handleResponse(request, result),
           error => this._handleFailedRequest(request, error));
@@ -146,6 +150,7 @@ export class AutocompleteController {
     }
     else if(request.selectedId) {
       if(result.length === 1) {
+        this.selected = result[0];
         this.options.initialRenderCallback(result[0].tekst);
       }
     }
@@ -202,6 +207,4 @@ export class AutocompleteController {
   destroy() {
 
   }
-
-
 }

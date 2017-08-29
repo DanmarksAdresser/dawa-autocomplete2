@@ -76,4 +76,5 @@ describe('Autocomplete', function () {
     browser.addValue(inputSelector, 'ArrowUp');
     await browser.waitForExist('.dawa-selected=Margretheparken');
   });
+
 });

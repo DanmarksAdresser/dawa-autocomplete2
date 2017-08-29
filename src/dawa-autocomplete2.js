@@ -3,7 +3,7 @@ import {AutocompleteController} from './autocomplete-controller.js';
 
 export function dawaAutocomplete(inputElm, options) {
   options = Object.assign({select: () => null}, options);
-  const controllerOptions = ['baseUrl', 'minLength', 'params', 'fuzzy', 'stormodtagerpostnumre', 'supplerendebynavn'].reduce((memo, optionName)=> {
+  const controllerOptions = ['baseUrl', 'minLength', 'params', 'fuzzy', 'stormodtagerpostnumre'].reduce((memo, optionName)=> {
     if(options.hasOwnProperty(optionName)) {
       memo[optionName] = options[optionName];
     }
@@ -32,11 +32,13 @@ export function dawaAutocomplete(inputElm, options) {
     options.select(selected);
   });
   controller.setInitialRenderCallback(text => ui.selectAndClose(text));
-  if(options.addressId) {
-    controller.selectInitial(options.addressId);
+  if(options.id) {
+    controller.selectInitial(options.id);
   }
   return {
-    destroy: () => ui.destroy()
+    id: id => controller.selectInitial(id),
+    destroy: () => ui.destroy(),
+    selected: () => controller.selected
   };
 }
 

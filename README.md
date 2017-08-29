@@ -119,7 +119,7 @@ The component is imported and initialized like this:
 ```javascript
 var dawaAutocomplete2 = require('dawa-autocomplete2');
 var inputElm = document.getElementById('dawa-autocomplete-input');
-dawaAutocomplete2.dawaAutocomplete(inputElm, {
+var component = dawaAutocomplete2.dawaAutocomplete(inputElm, {
   select: function(selected) {
     console.log('Valgt adresse: ' + selected.tekst);
   }
@@ -137,7 +137,14 @@ The following options are supported:
  - `stormodtagerpostnumre`: Whether "stormodtagerpostnumre" will be displayed in suggestions. Defaults to `true`.
  - `minLength`: Number of characters which must be entered before any suggestions is displayed. Defaults to `2`.
  - `multiline`: Display address suggestions on multiple lines. Default `false`.
- - `addressId`: Initialize the input field with the address specified by the given UUID. If the address does not exist, the input field is left empty.
+ - `id`: Initialize the input field with the address specified by the given UUID. If the address does not exist, the input field is left empty.
+
+### API
+The component has the following api:
+ 
+ - `destroy()`: Removes the component and any event listeners from the DOM.
+ - `selected()`: Returns the selected autocomplete entry, or null if no selection has been made yet.
+ - `id(uuid)`: Populate the input field with the addres specified by the uuid parameter.
 
 ### Cleanup
 Calling `destroy` removes the autocomplete component and any event listeners from the DOM:
