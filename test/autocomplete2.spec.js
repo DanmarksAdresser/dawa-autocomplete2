@@ -2,6 +2,7 @@
 import "regenerator-runtime/runtime";
 
 import {go} from 'ts-csp';
+import {assert } from 'chai';
 
 import {dawaAutocomplete} from '../src/dawa-autocomplete2';
 
@@ -33,6 +34,7 @@ describe('Autocomplete2', () => {
     div.appendChild(input);
     const autocomplete = dawaAutocomplete(input, {});
     autocomplete.destroy();
+    assert.strictEqual(div.innerHTML, '<input aria-autocomplete="list" autocomplete="off">');
   });
 });
 
