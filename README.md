@@ -130,7 +130,7 @@ The following options are supported:
  - `baseUrl`: URL to DAWA, defaults to `https://dawa.aws.dk`.
  - `adgangsadresserOnly`: The user enters an access address, not a complete address with floor/suite. Defaults to `false`.
  - `fuzzy`: Whether fuzzy searching is enabled, defaults to `true`.
- - `params`: A JavaScript object containing any additional parameters to send to DAWA, e.g. `{kommunekode: "101"}`. Any parameter supported by the API can be specified. Please see check the [API docs](https://dawa.aws.dk/autocompletedok) for further information:
+ - `params`: A JavaScript object containing any additional parameters to send to DAWA, e.g. `{kommunekode: "101"}`. Any parameter supported by the API can be specified. Please see check the [API docs](http://dawa.aws.dk/dok/api/autocomplete#autocomplete) for further information:
  - `stormodtagerpostnumre`: Whether "stormodtagerpostnumre" will be displayed in suggestions. Defaults to `true`.
  - `minLength`: Number of characters which must be entered before any suggestions is displayed. Defaults to `2`.
  - `multiline`: Display address suggestions on multiple lines. Default `false`.
