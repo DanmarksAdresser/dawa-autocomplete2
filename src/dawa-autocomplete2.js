@@ -3,17 +3,19 @@ import {AutocompleteController} from './autocomplete-controller.js';
 
 export function dawaAutocomplete(inputElm, options) {
   options = Object.assign({select: () => null}, options);
-  const controllerOptions = ['baseUrl', 'minLength', 'params', 'fuzzy', 'stormodtagerpostnumre', 'supplerendebynavn'].reduce((memo, optionName)=> {
+  const controllerOptions = ['baseUrl', 'minLength', 'params', 'fuzzy', 'stormodtagerpostnumre', 'supplerendebynavn', 'type'].reduce((memo, optionName)=> {
     if(options.hasOwnProperty(optionName)) {
       memo[optionName] = options[optionName];
     }
     return memo;
   }, {});
-  if(options.adgangsadresserOnly) {
-    controllerOptions.type = 'adgangsadresse';
-  }
-  else {
-    controllerOptions.type = 'adresse';
+  if(!controllerOptions.type) {
+    if(options.adgangsadresserOnly) {
+      controllerOptions.type = 'adgangsadresse';
+    }
+    else {
+      controllerOptions.type = 'adresse';
+    }
   }
   const controller = new AutocompleteController(controllerOptions);
   const ui = autocompleteUi(inputElm, {

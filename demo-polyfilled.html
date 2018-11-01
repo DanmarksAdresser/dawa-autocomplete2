@@ -48,6 +48,10 @@
 <div class="dawa-autocomplete-container">
     <input id="autocomplete-address-id">
 </div>
+<h3>vejnavn</h3>
+<div class="dawa-autocomplete-container">
+    <input id="autocomplete-vejnavn-id">
+</div>
 
 </body>
 <script>
@@ -118,5 +122,13 @@
     },
     id: 'f5a68d45-935b-48d6-8d11-6363327ca1ae'
   });
+dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-vejnavn-id"), {
+  baseUrl:BASE_URL,
+  type: 'vejnavn',
+  select: function(selected) {
+    console.log('Selected vejnavn:');
+    console.dir(selected);
+  }
+});
 </script>
 </html>
