@@ -12,7 +12,7 @@ module.exports = function (config) {
     // load necessary plugins
     plugins: [
       'karma-mocha',
-      require('karma-rollup-plugin'),
+      require('karma-rollup-preprocessor'),
       require('karma-chrome-launcher')
     ],
     files: [
@@ -42,9 +42,7 @@ module.exports = function (config) {
         globals(),
         builtins(),
         babel({
-          "presets": [
-            "es2015-rollup"
-          ]
+          "presets": ["@babel/preset-env"]
         }),
       ],
       format: 'iife',               // Helps prevent naming collisions.

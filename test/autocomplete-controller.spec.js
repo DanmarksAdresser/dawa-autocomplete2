@@ -148,8 +148,8 @@ describe('Autocomplete controller', () => {
     controller.update('girostrøget 1', 'girostrøget 1'.length);
     const suggestions = yield renderings.take();
     assert(suggestions.length >= 2);
-    assert.strictEqual(suggestions[0].forslagstekst, 'Girostrøget 1\nHøje Taastr.\n2630 Taastrup');
-    assert.strictEqual(suggestions[1].forslagstekst, 'Girostrøget 1\nHøje Taastr.\n0800 Høje Taastrup');
+    assert.strictEqual(suggestions[0].forslagstekst, 'Girostrøget 1\nHøje Taastrup\n2630 Taastrup');
+    assert.strictEqual(suggestions[1].forslagstekst, 'Girostrøget 1\nHøje Taastrup\n0800 Høje Taastrup');
   }));
 
   it('Ved deaktivering af supplerende bynavne returneres ikke supplerende bynavne', () => go(function*() {

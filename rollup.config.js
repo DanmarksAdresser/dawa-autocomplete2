@@ -11,9 +11,7 @@ export default {
     commonjs(),
     globals(),
     babel({
-      "presets": [
-        "es2015-rollup"
-      ]
+      "presets": ["@babel/preset-env"]
     })
   ],
   targets: [
