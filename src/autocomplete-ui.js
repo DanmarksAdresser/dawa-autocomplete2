@@ -14,21 +14,43 @@ attributes.caretpos = (element, name, value) => {
 
 attributes.value = applyProp;
 
+/*
+  Allows navigation with arrows if suggestions
+  container has overflow
+*/
+const scrollInView = (elem, container) => {
+  const view = container.offsetHeight;
+  const pos = elem.offsetTop;
+  const treshold = pos + elem.offsetHeight;
+
+  if(treshold > view || treshold < view) {
+    container.scrollTop = pos;
+  }
+}
+
 const renderIncrementalDOM = (data, onSelect, multiline) => {
   if (data.suggestions.length > 0 && data.focused) {
-    elementOpen('ul', '', ['class', 'dawa-autocomplete-suggestions', 'role', 'listbox']);
+    const suggestionsContainer = elementOpen('ul', '', ['class', 'dawa-autocomplete-suggestions', 'role', 'listbox']);
     for (let i = 0; i < data.suggestions.length; ++i) {
       const suggestion = data.suggestions[i];
       let className = 'dawa-autocomplete-suggestion';
-      if (data.selected === i) {
+
+      const isSelected = data.selected === i;
+      if (isSelected) {
         className += ' dawa-selected';
       }
-      elementOpen('li', '', ['role', 'option'],
+
+      const suggestionElem = elementOpen('li', '', ['role', 'option'],
         'class', className,
         'onmousedown', (e) => {
           onSelect(i);
           e.preventDefault();
-        });
+      });
+
+      if(isSelected) {
+        scrollInView(suggestionElem, suggestionsContainer);
+      }
+
       let rows = suggestion.forslagstekst.split('\n');
       rows = rows.map(row => row.replace(/ /g, '\u00a0'))
       if(multiline) {
@@ -133,6 +155,14 @@ export const autocompleteUi = (inputElm, options) => {
   };
 
   const blurHandler = () => {
+    /*
+      Prevents IE11 from destroying the suggestions container
+      when scrolling inside it
+    */
+    if(document.activeElement === inputElm.parentNode) {
+      return;
+    }
+
     data.focused = false;
     update();
     return false;
