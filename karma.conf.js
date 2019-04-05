@@ -45,9 +45,11 @@ module.exports = function (config) {
           "presets": ["@babel/preset-env"]
         }),
       ],
-      format: 'iife',               // Helps prevent naming collisions.
-      moduleName: 'dawaAutocomplete', // Required for 'iife' format.
-      sourceMap: 'inline',          // Sensible for testing.
+      output: {
+        format: 'iife',               // Helps prevent naming collisions.
+        name: 'dawaAutocomplete', // Required for 'iife' format.
+        sourcemap: 'inline'          // Sensible for testing.
+      }
     },
     phantomjsLauncher: {
       // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
