@@ -5,8 +5,7 @@ import babel from 'rollup-plugin-babel';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
 import globals from 'rollup-plugin-node-globals';
 export default {
-  entry: 'src/dawa-autocomplete2.js',
-  moduleName: 'dawaAutocomplete',
+  input: 'src/dawa-autocomplete2.js',
   plugins: [
     resolve(),
     commonjs(),
@@ -16,6 +15,9 @@ export default {
     }),
     compiler()
   ],
-  format: 'umd',
-  dest: 'dist/dawa-autocomplete2.min.js'
+  output: {
+    file: 'dist/dawa-autocomplete2.min.js',
+    format: 'umd',
+    name: 'dawaAutocomplete'
+  }
 };
