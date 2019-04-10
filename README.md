@@ -31,7 +31,7 @@ The autocomplete suggestions are rendered immediately after the input-field. In 
 they have the same width, the input field is wrapped in a DIV-element:
 ```html
 <div class="autocomplete-container">
-  <input id="dawa-autocomplete-input">
+  <input type="search" id="dawa-autocomplete-input">
   <!-- Suggestions will appear here -->
 </div>
 ```
