@@ -16,7 +16,12 @@ attributes.value = applyProp;
 
 const renderIncrementalDOM = (data, onSelect, multiline) => {
   if (data.suggestions.length > 0 && data.focused) {
-    elementOpen('ul', '', ['class', 'dawa-autocomplete-suggestions', 'role', 'listbox']);
+    // unselectable=on is a IE11 workaround,
+    // which makes it possible to use an eventual scroll bar on suggestions list.
+    elementOpen('ul', '', [
+      'class', 'dawa-autocomplete-suggestions',
+      'role', 'listbox',
+      'unselectable', 'on']);
     for (let i = 0; i < data.suggestions.length; ++i) {
       const suggestion = data.suggestions[i];
       let className = 'dawa-autocomplete-suggestion';
