@@ -4,6 +4,7 @@ const builtins = require('rollup-plugin-node-builtins');
 const commonjs = require( 'rollup-plugin-commonjs');
 const resolve = require( 'rollup-plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
+process.env.CHROME_BIN = require('puppeteer').executablePath();
 // karma.conf.js
 module.exports = function (config) {
   config.set({

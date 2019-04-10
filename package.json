@@ -51,6 +51,7 @@
     "mocha": "^6.1.2",
     "ncp": "^2.0.0",
     "npm-run-all": "^4.1.5",
+    "puppeteer": "^1.14.0",
     "regenerator-runtime": "^0.13.1",
     "rimraf": "^2.6.3",
     "rollup": "^1.8.0",
@@ -62,5 +63,6 @@
     "rollup-watch": "^4.3.1",
     "ts-csp": "^0.9.0",
     "webdriver": "5.7.9"
-  }
+  },
+  "dependencies": {}
 }
