@@ -1,3 +1,5 @@
+const isDocker = require('is-docker')();
+
 const globals = require( 'rollup-plugin-node-globals');
 const builtins = require('rollup-plugin-node-builtins');
 
@@ -8,7 +10,15 @@ process.env.CHROME_BIN = require('puppeteer').executablePath();
 // karma.conf.js
 module.exports = function (config) {
   config.set({
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeCustom'],
+    customLaunchers: {
+      ChromeCustom: {
+        base: 'ChromeHeadless',
+        // We must disable the Chrome sandbox when running Chrome inside Docker (Chrome's sandbox needs
+        // more permissions than Docker allows by default)
+        flags: isDocker ? ['--no-sandbox'] : []
+      }
+    },
     frameworks: ['mocha'],
     // load necessary plugins
     plugins: [
