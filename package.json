@@ -17,16 +17,15 @@
     "rollup": "rollup -c",
     "serve": "http-server -p 8080 .",
     "watch": "rollup -c -w",
-    "wdio-browserstack": "wdio",
-    "wdio-local": "wdio wdio-dev.conf.js",
     "karma": "karma start --single-run",
     "test-e2e": "mocha --config mocha-config-e2e.json",
     "test": "run-s eslint karma test-e2e",
-    "ci-test": "start-server-and-test serve http://localhost:8080/demo-polyfilled.html test",
     "dev": "run-p -r serve watch",
     "copy-demo": "ncp demo-polyfilled.html dist/demo-polyfilled.html",
     "copy-css": "ncp css/dawa-autocomplete2.css dist/dawa-autocomplete2.css",
-    "prepare": "run-s clean rollup rollup-minified copy-demo copy-css"
+    "prepare": "run-s clean rollup rollup-minified copy-demo copy-css",
+    "ci-test": "start-server-and-test serve http://localhost:8080/demo-polyfilled.html test",
+    "ci": "run-s prepare ci-test"
   },
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.8.5",

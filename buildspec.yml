@@ -6,4 +6,4 @@ phases:
       - docker-compose build
   post_build:
     commands:
-      - docker-compose run -e BROWSERSTACK_USERNAME=$BROWSERSTACK_USERNAME -e BROWSERSTACK_ACCESS_KEY=$BROWSERSTACK_ACCESS_KEY --rm dev npm run ci-test
+      - docker-compose run -e BROWSERSTACK_USERNAME=$BROWSERSTACK_USERNAME -e BROWSERSTACK_ACCESS_KEY=$BROWSERSTACK_ACCESS_KEY --rm dev npm run ci
