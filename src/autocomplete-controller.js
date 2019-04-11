@@ -1,3 +1,5 @@
+import fetch from 'unfetch';
+
 const formatParams = params => {
   return Object.keys(params).map(paramName => {
     const paramValue = params[paramName];

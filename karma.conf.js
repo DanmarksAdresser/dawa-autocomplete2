@@ -46,8 +46,8 @@ module.exports = function (config) {
             // left-hand side can be an absolute path, a path
             // relative to the current directory, or the name
             // of a module in node_modules
-            'node_modules/ts-csp/lib/index.js': [ 'go', 'Channel' ],
-            'node_modules/chai/index.js': ['assert']
+            'ts-csp': [ 'go', 'Channel' ],
+            'chai': ['assert']
           }
         }),
         globals(),
