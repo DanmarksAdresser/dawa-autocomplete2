@@ -17,12 +17,8 @@ For a working demo page, please see https://dawa.aws.dk/demo/autocomplete/demo.h
 ### Usage via &lt;script&gt; tag
 First, include the autocomplete component on the page:
 ```html
-    <script src="https://dawa.aws.dk/js/autocomplete/dawa-autocomplete2.min.js"></script>
+    <script src="https://cdn.aws.dk/assets/dawa-autocomplete2/1.0.0/dawa-autocomplete2.min.js"></script>
 ```
-Please notice that https://dawa.aws.dk regularly updates the hosted version of the file
-to the most recent. We do *not* guarantee that this file is always backwards compatible, so
-we strongly recommend that you serve a copy of the file from your own server.
-
 Some CSS rules must be added to the page in order to render the autocomplete suggestions correctly.
 All styling and positioning of the autocomplete suggestions is handled using CSS rules.
 
