@@ -8,17 +8,15 @@ DAWA Autocomplete2 has no dependencies on other JavaScript-libraries. However, t
 several newer browser API's, so it is neccessary to load polyfills in older browsers such as IE11.
 
 ## Browser support
-The component is tested in IE11, Edge, Chrome, Safari and Firefox. In IE11, we test using the [core-js](https://github.com/zloirock/core-js) and [GitHub fetch](https://github.com/github/fetch) polyfills.
+The component is tested in IE11, Edge, Chrome, Safari and Firefox.
 
 ## Usage
 DAWA Autocomplete2 may be installed using NPM, or it may be loaded into the browser using a `<script>`-tag. 
 For a working demo page, please see https://dawa.aws.dk/demo/autocomplete/demo.html
 
 ### Usage via &lt;script&gt; tag
-First, include polyfills and the autocomplete component on the page:
+First, include the autocomplete component on the page:
 ```html
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>
     <script src="https://dawa.aws.dk/js/autocomplete/dawa-autocomplete2.min.js"></script>
 ```
 Please notice that https://dawa.aws.dk regularly updates the hosted version of the file
@@ -161,8 +159,7 @@ Patches are welcome. To start a development server on port 8080, first clone the
  - `npm install`
  - `npm run dev`
  
-Now you can open http://localhost:8080/demo-polyfilled.html . In order to run unit tests, execute `npm run karma`.
-In order to run browser test locally, execute `npm run wdio-local`.
+Now you can open http://localhost:8080/demo-polyfilled.html .
  
 ## License
 Copyright © 2017 Styrelsen for Dataforsyning og Effektivisering (SDFE)

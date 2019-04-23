@@ -1,8 +1,8 @@
 "use strict";
 import "regenerator-runtime/runtime";
 
-import {go, Channel} from 'ts-csp';
 import {assert} from 'chai';
+import {go, Channel} from 'ts-csp';
 import {AutocompleteController} from '../src/autocomplete-controller';
 
 // const BASE_URL = 'http://localhost:3000';

@@ -185,7 +185,7 @@ const withWebdriverClient = (testDefFn) => {
         wd = new WebdriverWrapper(client);
       });
       beforeEach(async () => {
-        await wd.client.navigateTo('http://localhost:8080/demo-polyfilled.html');
+        await wd.client.navigateTo('http://localhost:8080/html/demo.html');
       });
       after(async () => {
         await wd.client.deleteSession();

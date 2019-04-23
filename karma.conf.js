@@ -1,7 +1,9 @@
+const replace = require( "rollup-plugin-replace");
+
 const isDocker = require('is-docker')();
 
+const builtins = require( 'rollup-plugin-node-builtins');
 const globals = require( 'rollup-plugin-node-globals');
-const builtins = require('rollup-plugin-node-builtins');
 
 const commonjs = require( 'rollup-plugin-commonjs');
 const resolve = require( 'rollup-plugin-node-resolve');
@@ -41,6 +43,9 @@ module.exports = function (config) {
     rollupPreprocessor: {
       plugins: [
         resolve(),
+        replace({
+          'process.env.NODE_ENV': JSON.stringify('production')
+        }),
         commonjs({
           namedExports: {
             // left-hand side can be an absolute path, a path
@@ -50,8 +55,8 @@ module.exports = function (config) {
             'chai': ['assert']
           }
         }),
-        globals(),
         builtins(),
+        globals(),
         babel({
           "presets": ["@babel/preset-env"]
         }),

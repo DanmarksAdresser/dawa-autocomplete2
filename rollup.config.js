@@ -8,11 +8,11 @@ import replace from 'rollup-plugin-replace';
 const configs = [];
 for (let minified of [true, false]) {
   for (let output of [{
-    file: `dist/dawa-autocomplete2.${minified ? 'min.' : ''}js`,
+    file: `dist/js/dawa-autocomplete2.${minified ? 'min.' : ''}js`,
     format: 'umd',
     name: 'dawaAutocomplete'
   }, {
-    file: `dist/dawa-autocomplete2.es.${minified ? 'min.' : ''}js`,
+    file: `dist/js/dawa-autocomplete2.es.${minified ? 'min.' : ''}js`,
     format: 'es'
   }]) {
     const config = {

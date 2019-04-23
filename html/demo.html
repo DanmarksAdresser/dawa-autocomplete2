@@ -4,8 +4,9 @@
     <title>DAWA autocomplete - demo</title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" href="css/dawa-autocomplete2.css">
-    <script src="dist/dawa-autocomplete2.min.js"></script>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    <link rel="stylesheet" href="../css/dawa-autocomplete2.css">
+    <script src="../js/dawa-autocomplete2.js"></script>
     <style>
         body {
             font-family: "Helvetica Neue",Arial,sans-serif;
@@ -53,7 +54,7 @@
 
 </body>
 <script>
-//  const BASE_URL = 'http://localhost:3000';
+  //  const BASE_URL = 'http://localhost:3000';
   const BASE_URL = 'https://dawa.aws.dk';
   dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-default"), {
     baseUrl:BASE_URL,
@@ -120,13 +121,13 @@
     },
     id: 'f5a68d45-935b-48d6-8d11-6363327ca1ae'
   });
-dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-vejnavn-id"), {
-  baseUrl:BASE_URL,
-  type: 'vejnavn',
-  select: function(selected) {
-    console.log('Selected vejnavn:');
-    console.dir(selected);
-  }
-});
+  dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-vejnavn-id"), {
+    baseUrl:BASE_URL,
+    type: 'vejnavn',
+    select: function(selected) {
+      console.log('Selected vejnavn:');
+      console.dir(selected);
+    }
+  });
 </script>
 </html>
