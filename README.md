@@ -106,7 +106,7 @@ you need to use a tool like [Webpack](https://webpack.github.io/).
 npm install dawa-autocomplete2
 ```
 
-Polyfills and CSS styling are handled in the same way as above. 
+CSS styling are handled in the same way as above. 
 The component is imported and initialized like this:
 ```javascript
 var dawaAutocomplete2 = require('dawa-autocomplete2');
@@ -155,7 +155,7 @@ Patches are welcome. To start a development server on port 8080, first clone the
  - `npm install`
  - `npm run dev`
  
-Now you can open http://localhost:8080/demo-polyfilled.html .
+Now you can open http://localhost:8080/html/demo .
  
 ## License
 Copyright © 2017 Styrelsen for Dataforsyning og Effektivisering (SDFE)
