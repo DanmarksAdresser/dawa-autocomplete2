@@ -186,6 +186,7 @@ const withWebdriverClient = (testDefFn) => {
       });
       beforeEach(async () => {
         await wd.client.navigateTo('http://localhost:8080/html/demo.html');
+        await sleep(500);
       });
       after(async () => {
         await wd.client.deleteSession();
