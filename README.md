@@ -4,9 +4,6 @@
 DAWA Autocomplete2 is a JavaScript-component which makes it possible to enter a danish address in a single input field. 
 The component uses [Danmarks Adressers WEB API](https://dawa.aws.dk).
 
-DAWA Autocomplete2 has no dependencies on other JavaScript-libraries. However, the component utilises
-several newer browser API's, so it is neccessary to load polyfills in older browsers such as IE11.
-
 ## Browser support
 The component is tested in IE11, Edge, Chrome, Safari and Firefox.
 
@@ -106,7 +103,7 @@ you need to use a tool like [Webpack](https://webpack.github.io/).
 npm install dawa-autocomplete2
 ```
 
-CSS styling are handled in the same way as above. 
+CSS styling is handled in the same way as above. 
 The component is imported and initialized like this:
 ```javascript
 var dawaAutocomplete2 = require('dawa-autocomplete2');
@@ -136,7 +133,7 @@ The component has the following api:
  
  - `destroy()`: Removes the component and any event listeners from the DOM.
  - `selected()`: Returns the selected autocomplete entry, or null if no selection has been made yet.
- - `id(uuid)`: Populate the input field with the addres specified by the uuid parameter.
+ - `id(uuid)`: Populate the input field with the address specified by the uuid parameter.
 
 ### Cleanup
 Calling `destroy` removes the autocomplete component and any event listeners from the DOM:
@@ -147,7 +144,7 @@ Calling `destroy` removes the autocomplete component and any event listeners fro
 
 ## Get help
 There is a [forum](https://digitaliser.dk/group/334445/forum) available on Digitaliser.dk. 
-Feel free to ask any questions there.
+Feel free to ask any questions there. 
  
 ## Contributing
 Patches are welcome. To start a development server on port 8080, first clone the repository and then run:
@@ -158,7 +155,7 @@ Patches are welcome. To start a development server on port 8080, first clone the
 Now you can open http://localhost:8080/html/demo .
  
 ## License
-Copyright © 2017 Styrelsen for Dataforsyning og Effektivisering (SDFE)
+Copyright © 2019 Styrelsen for Dataforsyning og Effektivisering (SDFE)
 
 Distributed under the [MIT license](https://opensource.org/licenses/MIT).
 
