@@ -14,8 +14,14 @@ For a working demo page, please see https://dawa.aws.dk/demo/autocomplete/demo.h
 ### Usage via &lt;script&gt; tag
 First, include the autocomplete component on the page:
 ```html
-    <script src="https://cdn.aws.dk/assets/dawa-autocomplete2/1.0.0/dawa-autocomplete2.min.js"></script>
+    <script src="https://cdn.aws.dk/assets/dawa-autocomplete2/1.0.2/dawa-autocomplete2.min.js"></script>
 ```
+Note that this version of the autocomplete component polyfills some functionality not supported by IE11, which changes the global namespace.
+If you provide your own polyfills, or do not care about older browsers, we provide a version without polyfills:
+```html
+    <script src="https://cdn.aws.dk/assets/dawa-autocomplete2/1.0.2/unfilled/dawa-autocomplete2.min.js"></script>
+```
+
 Some CSS rules must be added to the page in order to render the autocomplete suggestions correctly.
 All styling and positioning of the autocomplete suggestions is handled using CSS rules.
 
