@@ -25,7 +25,7 @@
     "prepare": "run-s clean rollup copy-demo copy-css",
     "ci-test": "start-server-and-test serve http://localhost:8080/html/demo.html test",
     "ci": "run-s prepare ci-test",
-    "deploy-s3": "s3-deploy --cwd ./dist/js --region eu-west-1 --bucket $BUCKET --filePrefix \"assets/dawa-autocomplete2/$npm_package_version\" dist/js/dawa-autocomplete2*.js  --gzip --profile $PROFILE"
+    "deploy-s3": "s3-deploy --cwd ./dist/js --region eu-west-1 --bucket $BUCKET --filePrefix \"assets/dawa-autocomplete2/$npm_package_version\" dist/js/**  --gzip --profile $PROFILE"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
