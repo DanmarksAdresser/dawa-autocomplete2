@@ -1,4 +1,7 @@
 # Changelog
+### Version 1.0.2
+ - Provide files without built-in polyfills for users who provide their own. 
+   The unfilled files can be found in the `unfilled` folder both on CDN and NPM.  
 
 ### Version 1.0.1
  - Updated README, add changelog, fix test.
