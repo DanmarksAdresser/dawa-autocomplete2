@@ -1,6 +1,6 @@
 import {autocompleteUi} from './autocomplete-ui.js';
 import {AutocompleteController} from './autocomplete-controller.js';
-
+import debounce from 'lodash.debounce';
 export function dawaAutocomplete(inputElm, options) {
   options = Object.assign({select: () => null}, options);
   const controllerOptions = ['baseUrl', 'minLength', 'params', 'fuzzy', 'stormodtagerpostnumre', 'supplerendebynavn', 'type'].reduce((memo, optionName)=> {
@@ -18,13 +18,15 @@ export function dawaAutocomplete(inputElm, options) {
     }
   }
   const controller = new AutocompleteController(controllerOptions);
+  let updateControllerOnTextChange = (newText, newCaretpos) => controller.update(newText, newCaretpos);
+  updateControllerOnTextChange = options.debounce ?
+      debounce(updateControllerOnTextChange, options.debounce, {maxWait: 500}) :
+      updateControllerOnTextChange;
   const ui = autocompleteUi(inputElm, {
     onSelect: (suggestion) => {
       controller.select(suggestion);
     },
-    onTextChange: (newText, newCaretpos) => {
-      controller.update(newText, newCaretpos);
-    },
+    onTextChange:  updateControllerOnTextChange,
     render: options.render,
     multiline: options.multiline || false
   });
