@@ -1,12 +1,12 @@
-const replace = require( "rollup-plugin-replace");
+const replace = require( "@rollup/plugin-replace");
 
 const isDocker = require('is-docker')();
 
 const builtins = require( 'rollup-plugin-node-builtins');
 const globals = require( 'rollup-plugin-node-globals');
 
-const commonjs = require( 'rollup-plugin-commonjs');
-const resolve = require( 'rollup-plugin-node-resolve');
+const commonjs = require( '@rollup/plugin-commonjs');
+const resolve = require( '@rollup/plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 // karma.conf.js

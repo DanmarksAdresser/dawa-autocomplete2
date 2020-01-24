@@ -27,6 +27,10 @@
 <div class="dawa-autocomplete-container">
     <input type="search" id="autocomplete-minlength-3">
 </div>
+<h3>debounce=500</h3>
+<div class="dawa-autocomplete-container">
+    <input type="search" id="autocomplete-debounce">
+</div>
 <h3>kommunekode=101</h3>
 <div class="dawa-autocomplete-container">
     <input type="search" id="autocomplete-kommunekode-101">
@@ -70,6 +74,14 @@
       console.log('Selected address:');
       console.dir(selected);
     }
+  });
+  dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-debounce"), {
+      baseUrl:BASE_URL,
+      debounce: 500,
+      select: function(selected) {
+          console.log('Selected address:');
+          console.dir(selected);
+      }
   });
   dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-minlength-3"), {
     baseUrl:BASE_URL,
