@@ -2,24 +2,24 @@
 # dawa-autocomplete2
 
 DAWA Autocomplete2 is a JavaScript-component which makes it possible to enter a danish address in a single input field. 
-The component uses [Danmarks Adressers WEB API](https://dawa.aws.dk).
+The component uses [Danmarks Adressers WEB API](https://dawadocs.dataforsyningen.dk).
 
 ## Browser support
 The component is tested in IE11, Edge, Chrome, Safari and Firefox.
 
 ## Usage
 DAWA Autocomplete2 may be installed using NPM, or it may be loaded into the browser using a `<script>`-tag. 
-For a working demo page, please see https://dawa.aws.dk/demo/autocomplete/demo.html
+For a working demo page, please see https://dawadocs.dataforsyningen.dk/demo/autocomplete/demo.html
 
 ### Usage via &lt;script&gt; tag
 First, include the autocomplete component on the page:
 ```html
-    <script src="https://cdn.aws.dk/assets/dawa-autocomplete2/1.0.2/dawa-autocomplete2.min.js"></script>
+    <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/dawa-autocomplete2.min.js"></script>
 ```
 Note that this version of the autocomplete component polyfills some functionality not supported by IE11, which changes the global namespace.
 If you provide your own polyfills, or do not care about older browsers, we provide a version without polyfills:
 ```html
-    <script src="https://cdn.aws.dk/assets/dawa-autocomplete2/1.0.2/unfilled/dawa-autocomplete2.min.js"></script>
+    <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/unfilled/dawa-autocomplete2.min.js"></script>
 ```
 
 Some CSS rules must be added to the page in order to render the autocomplete suggestions correctly.
