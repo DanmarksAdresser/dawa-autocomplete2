@@ -22,7 +22,7 @@ const defaultOptions = {
     console.error('No initialRenderCallback supplied');
   },
   type: 'adresse',
-  baseUrl: 'https://dawa.aws.dk',
+  baseUrl: 'https://api.dataforsyningen.dk',
   adgangsadresserOnly: false,
   stormodtagerpostnumre: true,
   supplerendebynavn: true,

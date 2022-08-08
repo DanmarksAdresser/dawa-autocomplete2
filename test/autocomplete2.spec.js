@@ -6,8 +6,7 @@ import {assert } from 'chai';
 
 import {dawaAutocomplete} from '../src/dawa-autocomplete2';
 
-// const BASE_URL = 'http://localhost:3000';
-const BASE_URL = 'https://dawa.aws.dk';
+const BASE_URL = 'https://api.dataforsyningen.dk';
 
 const waitFor = (condition, timeout) => {
   const started = Date.now();

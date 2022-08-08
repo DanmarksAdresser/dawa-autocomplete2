@@ -5,8 +5,7 @@ import {assert} from 'chai';
 import {go, Channel} from 'ts-csp';
 import {AutocompleteController} from '../src/autocomplete-controller';
 
-// const BASE_URL = 'http://localhost:3000';
-const BASE_URL = 'https://dawa.aws.dk';
+const BASE_URL = 'https://api.dataforsyningen.dk';
 const sleep = (ms) => new Promise((resolve) => {
   setTimeout(() => resolve(new Error('Timeout')), ms);
 });
@@ -96,7 +95,7 @@ describe('Autocomplete controller', () => {
       "forslagstekst": "Margrethepladsen",
       "caretpos": 17,
       "data": {
-        "href": "http://dawa.aws.dk/vejnavne/Margrethepladsen",
+        "href": "https://api.dataforsyningen.dk/vejnavne/Margrethepladsen",
         "navn": "Margrethepladsen"
       }
     };
@@ -111,7 +110,7 @@ describe('Autocomplete controller', () => {
       "caretpos": 20,
       "data": {
         "id": "0a3f5096-91d3-32b8-e044-0003ba298018",
-        "href": "http://dawa.aws.dk/adgangsadresser/0a3f5096-91d3-32b8-e044-0003ba298018",
+        "href": "https://api.dataforsyningen.dk/adgangsadresser/0a3f5096-91d3-32b8-e044-0003ba298018",
         "vejnavn": "Margrethepladsen",
         "husnr": "4",
         "supplerendebynavn": null,
