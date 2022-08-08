@@ -1,6 +1,6 @@
 {
   "name": "dawa-autocomplete2",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "DAWA Autocomplete komponent",
   "main": "dist/js/dawa-autocomplete2.js",
   "module": "dist/js/dawa-autocomplete2.es.js",
@@ -22,7 +22,6 @@
     "dev": "run-p -r serve watch",
     "copy-demo": "shx mkdir -p dist/html && shx cp html/* dist/html/",
     "copy-css": "shx mkdir -p dist/css && shx cp css/* dist/css/",
-    "prepare": "run-s clean rollup copy-demo copy-css",
     "ci-test": "start-server-and-test serve http://localhost:8080/html/demo.html test",
     "ci": "run-s prepare ci-test",
     "deploy-s3": "s3-deploy --cwd ./dist/js --region eu-west-1 --bucket $BUCKET --filePrefix \"assets/dawa-autocomplete2/$npm_package_version\" dist/js/**  --gzip --profile $PROFILE"
