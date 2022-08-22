@@ -2,7 +2,7 @@
 
 # WARNING This repo is depricated and will no longer be maintained
 
-# dawa-autocomplete2
+# dawa-autocomplete2 has been moved to this location https://github.com/SDFIdk/dawa-autocomplete2
 
 DAWA Autocomplete2 is a JavaScript-component which makes it possible to enter a danish address in a single input field. 
 The component uses [Danmarks Adressers WEB API](https://dawadocs.dataforsyningen.dk).
