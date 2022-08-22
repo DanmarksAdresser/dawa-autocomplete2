@@ -1,4 +1,7 @@
 ![Build Status](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoidFUyM1pUSGdsVGF1R0cyWlcxeTM1NnlnYmZYVUVCR3BSQXFlUTNVQWJnbGg2VVE1bk5oTnIyL2oxUE5uNWRjMERpTlc0bXZmWkZrSGQxUHhYblptcEhRPSIsIml2UGFyYW1ldGVyU3BlYyI6IjVNQnMyeVFWNDVYUjBOTkUiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+
+# WARNING This repo is depricated and will no longer be maintained
+
 # dawa-autocomplete2
 
 DAWA Autocomplete2 is a JavaScript-component which makes it possible to enter a danish address in a single input field. 
